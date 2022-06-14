@@ -1,5 +1,6 @@
 # Terraform-Modules
 
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/StevenJDH/Terraform-Modules?include_prereleases)
 ![Maintenance](https://img.shields.io/maintenance/yes/2022)
 ![GitHub](https://img.shields.io/github/license/StevenJDH/Terraform-Modules)
 
