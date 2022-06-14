@@ -17,7 +17,6 @@
 
 module "sns-topics" {
   source = "../../../aws/sns"
-  version = "0.1.0"
 
   topic_names   = ["tf-sns-example-${var.stage}"]
 
@@ -29,7 +28,6 @@ module "sns-topics" {
 
 module "sns-fifo-topics" {
   source = "../../../aws/sns"
-  version = "0.1.0"
 
   topic_names = ["tf-sns-example2-${var.stage}"]
   fifo_topic  = true

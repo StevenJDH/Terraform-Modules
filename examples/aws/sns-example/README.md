@@ -16,8 +16,8 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_sns-fifo-topics"></a> [sns-fifo-topics](#module\_sns-fifo-topics) | ../../../aws/sns | 0.1.0 |
-| <a name="module_sns-topics"></a> [sns-topics](#module\_sns-topics) | ../../../aws/sns | 0.1.0 |
+| <a name="module_sns-fifo-topics"></a> [sns-fifo-topics](#module\_sns-fifo-topics) | ../../../aws/sns | n/a |
+| <a name="module_sns-topics"></a> [sns-topics](#module\_sns-topics) | ../../../aws/sns | n/a |
 
 ## Resources
 
