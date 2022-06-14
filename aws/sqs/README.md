@@ -4,14 +4,14 @@
 
 ```hcl
 module "sqs-queues" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/sqs"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/sqs?ref=main"
 
   queue_names   = ["tf-sqs-example-dev"]
   region        = "eu-west-3"
 }
 
 module "sqs-fifo-queues-with-dlq" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/sqs"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/sqs?ref=main"
 
   queue_names   = ["tf-sqs-example2-dev"]
   fifo_queue    = true

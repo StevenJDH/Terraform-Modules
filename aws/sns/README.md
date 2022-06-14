@@ -4,13 +4,13 @@
 
 ```hcl
 module "sns-topics" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/sns"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/sns?ref=main"
 
   topic_names   = ["tf-sns-example-dev"]
 }
 
 module "sns-fifo-topics" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/sns"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/sns?ref=main"
 
   topic_names   = ["tf-sns-example2-dev"]
   fifo_topic    = true
