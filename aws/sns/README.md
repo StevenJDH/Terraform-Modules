@@ -1,5 +1,22 @@
 # AWS SNS Module
 
+## Usage
+
+```hcl
+module "sns-topics" {
+  source = "github.com/StevenJDH/Terraform-Modules//aws/sns"
+
+  topic_names   = ["tf-sns-example-dev"]
+}
+
+module "sns-fifo-topics" {
+  source = "github.com/StevenJDH/Terraform-Modules//aws/sns"
+
+  topic_names   = ["tf-sns-example2-dev"]
+  fifo_topic    = true
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -39,7 +56,7 @@ No modules.
 | <a name="input_num_no_delay_retries"></a> [num\_no\_delay\_retries](#input\_num\_no\_delay\_retries) | The number of retries to be done immediately, with no delay between them. 0 or greater. | `number` | `0` | no |
 | <a name="input_num_retries"></a> [num\_retries](#input\_num\_retries) | The total number of retries, including immediate, pre-backoff, backoff, and post-backoff retries. 0 to 100. | `number` | `3` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource tags. | `map(string)` | `null` | no |
-| <a name="input_topic_names"></a> [topic\_names](#input\_topic\_names) | Name of topic. | `list(string)` | n/a | yes |
+| <a name="input_topic_names"></a> [topic\_names](#input\_topic\_names) | List of topic names. | `list(string)` | n/a | yes |
 
 ## Outputs
 

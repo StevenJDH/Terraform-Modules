@@ -16,7 +16,7 @@
  */
 
 variable "topic_names" {
-  description = "Name of topic."
+  description = "List of topic names."
   type        = list(string)
 }
 
