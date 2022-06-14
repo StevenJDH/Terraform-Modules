@@ -18,25 +18,19 @@
 module "sqs-queues" {
   source = "../../../aws/sqs"
 
-  queue_names   = ["tf-sqs-example-${var.stage}"]
+  queue_names   = ["tf-sqs-example-${local.stage}"]
   region        = var.region
 
-  tags = {
-    environment = var.stage
-    terraform = true
-  }
+  tags = local.tags
 }
 
 module "sqs-fifo-queues-with-dlq" {
   source = "../../../aws/sqs"
 
-  queue_names   = ["tf-sqs-example2-${var.stage}"]
+  queue_names   = ["tf-sqs-example2-${local.stage}"]
   fifo_queue    = true
   create_dlq    = true
   region        = var.region
 
-  tags = {
-    environment = var.stage
-    terraform = true
-  }
+  tags = local.tags
 }

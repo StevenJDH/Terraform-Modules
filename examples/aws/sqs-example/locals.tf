@@ -15,8 +15,12 @@
  * limitations under the License.
  */
 
-variable "region" {
-  description = "AWS region."
-  type        = string
-  default     = "eu-west-3"
+locals {
+  stage = "dev"
+  aws_profile = "default"
+
+  tags = {
+    environment = local.stage
+    terraform   = true
+  }
 }

@@ -28,7 +28,6 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_region"></a> [region](#input\_region) | AWS region. | `string` | `"eu-west-3"` | no |
-| <a name="input_stage"></a> [stage](#input\_stage) | Deployment stage. | `string` | `"dev"` | no |
 
 ## Outputs
 

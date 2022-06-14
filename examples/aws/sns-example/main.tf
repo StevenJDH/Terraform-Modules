@@ -18,22 +18,16 @@
 module "sns-topics" {
   source = "../../../aws/sns"
 
-  topic_names   = ["tf-sns-example-${var.stage}"]
+  topic_names   = ["tf-sns-example-${local.stage}"]
 
-  tags = {
-    environment = var.stage
-    terraform = true
-  }
+  tags = local.tags
 }
 
 module "sns-fifo-topics" {
   source = "../../../aws/sns"
 
-  topic_names = ["tf-sns-example2-${var.stage}"]
+  topic_names = ["tf-sns-example2-${local.stage}"]
   fifo_topic  = true
 
-  tags = {
-    environment = var.stage
-    terraform = true
-  }
+  tags = local.tags
 }
