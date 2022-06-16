@@ -16,9 +16,9 @@
  */
 
 output "sns_arns" {
-  value = module.sns-topics.sns_topic_arn
+  value = module.sns-topics.sns_topic_arns
 }
 
 output "sns_fifo_arns" {
-  value = module.sns-fifo-topics.sns_topic_arn
+  value = module.sns-fifo-topics.sns_topic_arns
 }

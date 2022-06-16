@@ -16,13 +16,13 @@
  */
 
 output "sqs_arns" {
-  value = module.sqs-queues.sqs_queue_arn
+  value = module.sqs-queues.sqs_queue_arns
 }
 
 output "sqs_fifo_arns" {
-  value = module.sqs-fifo-queues-with-dlq.sqs_queue_arn
+  value = module.sqs-fifo-queues-with-dlq.sqs_queue_arns
 }
 
 output "sqs_fifo_dlq_arns" {
-  value = module.sqs-fifo-queues-with-dlq.sqs_dlq_queue_arn
+  value = module.sqs-fifo-queues-with-dlq.sqs_dlq_queue_arns
 }

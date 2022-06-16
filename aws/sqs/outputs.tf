@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-output "sqs_queue_arn" {
+output "sqs_queue_arns" {
   value = aws_sqs_queue.this.*.arn
 }
 
-output "sqs_dlq_queue_arn" {
-  value = aws_sqs_queue.dlq.*.arn
+output "sqs_dlq_queue_arns" {
+  value = try(aws_sqs_queue.dlq.*.arn, "")
 }
