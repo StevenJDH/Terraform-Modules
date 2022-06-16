@@ -10,10 +10,12 @@ module "public-key-vault" {
   create_resource_group = true
   resource_group_name   = "rg-key-vault-example-${local.stage}"
   access_policies       = {
-    bypass_network_acls           = true
-    allow_when_no_acl_rules_match = false
-    ip_rules                      = []
-    virtual_network_subnet_ids    = []
+    (data.azurerm_client_config.current.object_id) = {
+      certificate_permissions = ["List", "Get"]
+      key_permissions         = ["List", "Get"]
+      secret_permissions      = ["List", "Get", "Delete", "Recover", "Set", "Purge", "Restore"]
+      storage_permissions     = ["List", "Get"]
+    },
   }
   location              = "westeurope"
 }
@@ -25,20 +27,20 @@ module "private-key-vault" {
   create_resource_group = true
   resource_group_name   = "rg-key-vault-example2-${local.stage}"
   access_policies       = {
-    bypass_network_acls           = true
-    allow_when_no_acl_rules_match = false
-    ip_rules                      = []
-    virtual_network_subnet_ids    = []
-  }
-  location              = "westeurope"
-
-  network_acls                      = {
     (data.azurerm_client_config.current.object_id) = {
       certificate_permissions = ["List", "Get"]
       key_permissions         = ["List", "Get"]
       secret_permissions      = ["List", "Get", "Delete", "Recover", "Set", "Purge", "Restore"]
       storage_permissions     = ["List", "Get"]
     },
+  }
+  location              = "westeurope"
+
+  network_acls                      = {
+    bypass_network_acls           = true
+    allow_when_no_acl_rules_match = false
+    ip_rules                      = []
+    virtual_network_subnet_ids    = []
   }
   create_private_endpoint           = true
   subnet_endpoint_id                = data.azurerm_subnet.example.id
