@@ -16,21 +16,21 @@
  */
 
 output "resource_group_id" {
-  value = concat(azurerm_resource_group.this.*.id, [""])[0]
+  value = try(azurerm_resource_group.this[0].id, "")
 }
 
 output "private_dns_zone_id" {
-  value = concat(azurerm_private_dns_zone.this.*.id, [""])[0]
+  value = try(azurerm_private_dns_zone.this[0].id, "")
 }
 
 output "private_dns_a_record_id" {
-  value = concat(azurerm_private_dns_a_record.this.*.id, [""])[0]
+  value = try(azurerm_private_dns_a_record.this[0].id, "")
 }
 
 output "public_dns_zone_id" {
-  value = concat(azurerm_dns_zone.this.*.id, [""])[0]
+  value = try(azurerm_dns_zone.this[0].id, "")
 }
 
 output "public_dns_a_record_id" {
-  value = concat(azurerm_dns_a_record.this.*.id, [""])[0]
+  value = try(azurerm_dns_a_record.this[0].id, "")
 }
