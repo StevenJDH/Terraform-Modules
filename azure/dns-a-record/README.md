@@ -6,13 +6,13 @@
 module "private-dns-a-record" {
   source = "github.com/StevenJDH/Terraform-Modules//azure/dns-a-record?ref=main"
 
+  create_dns_zone                   = true
   dns_zone_name                     = "example.com"
   dns_a_record_name                 = "test"
   ip_address_for_a_record           = "10.55.55.55"
   location                          = "westeurope"
   create_resource_group             = true
   resource_group_name               = "rg-private-dns-a-record-example-dev"
-  create_dns_zone                   = true
   create_private_dns_zone_vnet_link = true
   virtual_network_id                = data.azurerm_virtual_network.example.id            
 }
@@ -21,13 +21,13 @@ module "public-dns-a-record" {
   source = "github.com/StevenJDH/Terraform-Modules//azure/dns-a-record?ref=main"
 
   private_dns_record      = false
+  create_dns_zone         = true
   dns_zone_name           = "example.com"
   dns_a_record_name       = "test"
   ip_address_for_a_record = "99.55.55.55"
   location                = "westeurope"
   create_resource_group   = true
   resource_group_name     = "rg-public-dns-a-record-example-dev"
-  create_dns_zone         = true
 }
 ```
 
