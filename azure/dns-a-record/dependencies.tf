@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-data "azurerm_client_config" "current" {}
-
 data "azurerm_private_dns_zone" "current" {
   count = !var.create_dns_zone && var.private_dns_record ? 1 : 0
 
