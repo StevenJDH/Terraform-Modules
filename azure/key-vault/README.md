@@ -115,11 +115,11 @@ module "private-key-vault" {
 
 | Name | Description |
 |------|-------------|
+| <a name="output_key_vault_id"></a> [key\_vault\_id](#output\_key\_vault\_id) | n/a |
+| <a name="output_key_vault_uri"></a> [key\_vault\_uri](#output\_key\_vault\_uri) | n/a |
 | <a name="output_private_endpoint_ip_address"></a> [private\_endpoint\_ip\_address](#output\_private\_endpoint\_ip\_address) | n/a |
 | <a name="output_privatelink_dns_a_record_id"></a> [privatelink\_dns\_a\_record\_id](#output\_privatelink\_dns\_a\_record\_id) | n/a |
 | <a name="output_privatelink_dns_zone_id"></a> [privatelink\_dns\_zone\_id](#output\_privatelink\_dns\_zone\_id) | n/a |
 | <a name="output_privatelink_resource_group_id"></a> [privatelink\_resource\_group\_id](#output\_privatelink\_resource\_group\_id) | n/a |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | n/a |
-| <a name="output_vault_id"></a> [vault\_id](#output\_vault\_id) | n/a |
-| <a name="output_vault_uri"></a> [vault\_uri](#output\_vault\_uri) | n/a |
 <!-- END_TF_DOCS -->

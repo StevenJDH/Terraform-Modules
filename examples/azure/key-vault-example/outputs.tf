@@ -20,11 +20,11 @@ output "public_key_vault_resource_group_id" {
 }
 
 output "public_key_vault_id" {
-  value = module.public-key-vault.vault_id
+  value = module.public-key-vault.key_vault_id
 }
 
 output "public_key_vault_uri" {
-  value = module.public-key-vault.vault_uri
+  value = module.public-key-vault.key_vault_uri
 }
 
 output "private_key_vault_resource_group_id" {
@@ -32,11 +32,11 @@ output "private_key_vault_resource_group_id" {
 }
 
 output "private_key_vault_id" {
-  value = module.private-key-vault.vault_id
+  value = module.private-key-vault.key_vault_id
 }
 
 output "private_key_vault_uri" {
-  value = module.private-key-vault.vault_uri
+  value = module.private-key-vault.key_vault_uri
 }
 
 output "privatelink_resource_group_id" {
