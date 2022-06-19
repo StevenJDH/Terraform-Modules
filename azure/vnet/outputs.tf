@@ -25,10 +25,10 @@ output "vnet_id" {
 
 output "subnet_ids_and_address_info" {
   value = tomap({
-    for arns in azurerm_subnet.this.*.id :
-      arns => {
-        address_prefix = azurerm_subnet.this[index(azurerm_subnet.this.*.id,arns)].address_prefixes[0],
-        subnet_mask = cidrnetmask(azurerm_subnet.this[index(azurerm_subnet.this.*.id,arns)].address_prefixes[0])
+    for subnet_id in azurerm_subnet.this.*.id :
+      subnet_id => {
+        address_prefix = azurerm_subnet.this[index(azurerm_subnet.this.*.id,subnet_id)].address_prefixes[0],
+        subnet_mask = cidrnetmask(azurerm_subnet.this[index(azurerm_subnet.this.*.id,subnet_id)].address_prefixes[0])
       }
   })
 }
