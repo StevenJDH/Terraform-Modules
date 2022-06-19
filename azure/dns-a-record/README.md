@@ -10,7 +10,7 @@ module "private-dns-a-record" {
   dns_zone_name                     = "example.com"
   dns_a_record_name                 = "test"
   ip_address_for_a_record           = "10.55.55.55"
-  location                          = "westeurope"
+  location                          = "West Europe"
   create_resource_group             = true
   resource_group_name               = "rg-private-dns-a-record-example-dev"
   create_private_dns_zone_vnet_link = true
@@ -25,7 +25,7 @@ module "public-dns-a-record" {
   dns_zone_name           = "example.com"
   dns_a_record_name       = "test"
   ip_address_for_a_record = "99.55.55.55"
-  location                = "westeurope"
+  location                = "West Europe"
   create_resource_group   = true
   resource_group_name     = "rg-public-dns-a-record-example-dev"
 }

@@ -17,7 +17,7 @@ module "public-key-vault" {
       storage_permissions     = ["List", "Get"]
     },
   }
-  location              = "westeurope"
+  location              = "West Europe"
 }
 
 module "private-key-vault" {
@@ -34,7 +34,7 @@ module "private-key-vault" {
       storage_permissions     = ["List", "Get"]
     },
   }
-  location              = "westeurope"
+  location              = "West Europe"
 
   network_acls                      = {
     bypass_network_acls           = true

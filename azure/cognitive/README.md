@@ -9,7 +9,7 @@ module "public_cognitive_tts" {
   name                  = "cog-public-tts-example-dev"
   create_resource_group = true
   resource_group_name   = "rg-public-cognitive-example-dev"
-  location              = "westeurope"
+  location              = "West Europe"
   kind                  = "SpeechServices"
   sku_name              = "F0"
 }
@@ -20,7 +20,7 @@ module "private_cognitive_tts" {
   name                  = "cog-private-tts-example-dev"
   create_resource_group = true
   resource_group_name   = "rg-private-cognitive-example-dev"
-  location              = "westeurope"
+  location              = "West Europe"
   kind                  = "SpeechServices"
   sku_name              = "F0"
 

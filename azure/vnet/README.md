@@ -9,7 +9,7 @@ module "vnet-with-subnets" {
   name = "vnet-example-dev"
   create_resource_group   = true
   resource_group_name = "rg-vnet-example-dev"
-  location = "westeurope"
+  location = "West Europe"
   address_space = "10.0.0.0/16"
   subnet_configuration = [
     {

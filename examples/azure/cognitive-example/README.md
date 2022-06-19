@@ -28,7 +28,7 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_location"></a> [location](#input\_location) | Azure location. | `string` | `"westeurope"` | no |
+| <a name="input_location"></a> [location](#input\_location) | Azure location. | `string` | `"West Europe"` | no |
 
 ## Outputs
 
