@@ -26,7 +26,7 @@ resource "azurerm_resource_group" "this" {
 
 resource "azurerm_virtual_network" "this" {
   name                = var.name
-  location            = var.location
+  location            = var.create_resource_group ? azurerm_resource_group.this[0].location : var.location
   resource_group_name = var.create_resource_group ? azurerm_resource_group.this[0].name : var.resource_group_name
   address_space       = [var.address_space]
   dns_servers         = var.dns_servers

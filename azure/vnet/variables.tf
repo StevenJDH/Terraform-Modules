@@ -48,7 +48,7 @@ variable "dns_servers" {
   default     = []
 }
 
-# TODO: When TF v1.30 is released, use optional(bool, [] or null) for 'service_endpoints' and remove coalesce().
+# TODO: When TF v1.30 is released, use optional(list(string), [] or null) for 'service_endpoints' and remove coalesce().
 variable "subnet_configuration" {
   description = "Sets the configuration for the subnet. For attributes nat_gateway_id, network_security_group_id and route_table_id, set to null if not needed. The new_bits attribute is the number of additional bits with which to extend the prefix. For example, if given a prefix ending in /16 and a new_bits value of 88, the resulting subnet address will have length /24."
   type = list(object({

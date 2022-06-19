@@ -1,5 +1,6 @@
 # Azure VNET Module Example
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
