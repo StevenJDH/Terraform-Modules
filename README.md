@@ -4,7 +4,7 @@
 ![Maintenance](https://img.shields.io/maintenance/yes/2022)
 ![GitHub](https://img.shields.io/github/license/StevenJDH/Terraform-Modules)
 
-A growing collection of reusable Terraform modules for both AWS and Azure. Each module has an example project to demo some of its core features.
+A growing collection of reusable Terraform modules for AWS, Azure, and Kubernetes. Each module has an example project to demo some of its core features.
 
 [![Buy me a coffee](https://img.shields.io/static/v1?label=Buy%20me%20a&message=coffee&color=important&style=flat&logo=buy-me-a-coffee&logoColor=white)](https://www.buymeacoffee.com/stevenjdh)
 
