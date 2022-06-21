@@ -10,9 +10,9 @@ module "dapr-development-with-observability" {
   create_dapr_system_namespace      = true
   create_dapr_apps_namespace        = true
   create_dapr_monitoring_namespace  = true
-  deploy_zipkin                     = true
   deploy_redis_with_building_blocks = true
   redis_replicas_replica_count      = 1
+  deploy_zipkin                     = true
   deploy_prometheus_with_grafana    = true
   deploy_elasticsearch_with_kibana  = true
   elasticsearch_replica_count       = 1
@@ -28,8 +28,8 @@ module "dapr-production-with-observability" {
   create_dapr_system_namespace      = true
   create_dapr_apps_namespace        = true
   create_dapr_monitoring_namespace  = true
-  deploy_zipkin                     = true
   deploy_redis_with_building_blocks = true
+  deploy_zipkin                     = true
   deploy_prometheus_with_grafana    = true
   deploy_elasticsearch_with_kibana  = true
 }
