@@ -16,9 +16,9 @@
  */
 
 output "redis-secret-copy-cmd" {
-  value = var.create_redis_building_blocks ? "kubectl get secret redis -n <redis-namespace-here> --export -o yaml | kubectl apply -n ${local.dapr_nginx_namespace} -f -" : null
+  value = var.create_redis_building_blocks ? "Run the following command and restart the NGINX pod(s): kubectl get secret redis -n ${var.redis_namespace} -o yaml | sed 's/namespace: .*/namespace: ${local.dapr_nginx_namespace}/' | kubectl apply -f -" : null
 }
 
 output "redis-statestore-test" {
-  value = var.create_redis_building_blocks ? "curl -X DELETE http://${var.dapr_ingress_hostname == null ? "localhost" : var.dapr_ingress_hostname}/v1.0/state/statestore/test -v" : null
+  value = var.create_redis_building_blocks ? "Run the following test, 'HTTP/1.1 204 No Content' means success: curl -X DELETE http://${var.dapr_ingress_hostname == null ? "localhost" : var.dapr_ingress_hostname}/v1.0/state/statestore/test -I" : null
 }

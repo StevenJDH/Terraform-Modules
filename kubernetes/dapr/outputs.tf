@@ -16,21 +16,21 @@
  */
 
 output "zipkin-port-forward-cmd" {
-  value = var.deploy_zipkin ? "kubectl port-forward svc/zipkin 9411:9411 -n ${local.dapr_monitoring_namespace}" : ""
+  value = var.deploy_zipkin ? "kubectl port-forward svc/zipkin 9411:9411 -n ${local.dapr_monitoring_namespace}" : null
 }
 
 output "prometheus-server-endpoint" {
-  value = var.deploy_prometheus_with_grafana ? "http://dapr-prom-prometheus-server.${local.dapr_monitoring_namespace}" : ""
+  value = var.deploy_prometheus_with_grafana ? "http://dapr-prom-prometheus-server.${local.dapr_monitoring_namespace}" : null
 }
 
 output "grafana-admin-password-lookup-cmd" {
-  value = var.deploy_prometheus_with_grafana ? "kubectl get secret grafana -n ${var.dapr_monitoring_namespace} -o jsonpath={.data.admin-password} | base64 --decode ; echo" : ""
+  value = var.deploy_prometheus_with_grafana ? "kubectl get secret grafana -n ${var.dapr_monitoring_namespace} -o jsonpath={.data.admin-password} | base64 --decode ; echo" : null
 }
 
 output "grafana-port-forward-cmd" {
-  value = var.deploy_prometheus_with_grafana ? "kubectl port-forward svc/grafana 8080:80 -n ${local.dapr_monitoring_namespace}" : ""
+  value = var.deploy_prometheus_with_grafana ? "kubectl port-forward svc/grafana 8080:80 -n ${local.dapr_monitoring_namespace}" : null
 }
 
 output "kibana-port-forward-cmd" {
-  value = var.deploy_elasticsearch_with_kibana ? "kubectl port-forward svc/kibana-kibana 5601:5601 -n ${local.dapr_monitoring_namespace}" : ""
+  value = var.deploy_elasticsearch_with_kibana ? "kubectl port-forward svc/kibana-kibana 5601:5601 -n ${local.dapr_monitoring_namespace}" : null
 }
