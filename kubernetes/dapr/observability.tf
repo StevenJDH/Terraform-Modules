@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-resource "kubernetes_namespace" "dapr-monitoring" {
+resource "kubernetes_namespace_v1" "dapr-monitoring" {
   count = var.create_dapr_monitoring_namespace ? 1 : 0
 
   metadata {
@@ -23,7 +23,7 @@ resource "kubernetes_namespace" "dapr-monitoring" {
   }
 }
 
-resource "kubernetes_deployment" "zipkin" {
+resource "kubernetes_deployment_v1" "zipkin" {
   count = var.deploy_zipkin ? 1 : 0
 
   metadata {
@@ -73,21 +73,21 @@ resource "kubernetes_deployment" "zipkin" {
   depends_on = [kubectl_manifest.zipkin-config]
 }
 
-resource "kubernetes_service" "zipkin" {
+resource "kubernetes_service_v1" "zipkin" {
   count = var.deploy_zipkin ? 1 : 0
 
   metadata {
-    name = kubernetes_deployment.zipkin[0].metadata[0].name
-    namespace = kubernetes_deployment.zipkin[0].metadata[0].namespace
+    name = kubernetes_deployment_v1.zipkin[0].metadata[0].name
+    namespace = kubernetes_deployment_v1.zipkin[0].metadata[0].namespace
   }
   spec {
     selector = {
-      app = kubernetes_deployment.zipkin[0].spec[0].template[0].metadata[0].labels.app
+      app = kubernetes_deployment_v1.zipkin[0].spec[0].template[0].metadata[0].labels.app
     }
     port {
       protocol = "TCP"
-      port = kubernetes_deployment.zipkin[0].spec[0].template[0].spec[0].container[0].port[0].container_port
-      target_port = kubernetes_deployment.zipkin[0].spec[0].template[0].spec[0].container[0].port[0].container_port
+      port = kubernetes_deployment_v1.zipkin[0].spec[0].template[0].spec[0].container[0].port[0].container_port
+      target_port = kubernetes_deployment_v1.zipkin[0].spec[0].template[0].spec[0].container[0].port[0].container_port
     }
   }
 }

@@ -44,7 +44,7 @@ No modules.
 | [kubectl_manifest.redis-state-store](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [kubectl_manifest.zipkin-config](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [kubernetes_ingress_v1.daprd-sidecar](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/ingress_v1) | resource |
-| [kubernetes_namespace.dapr-nginx](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
+| [kubernetes_namespace_v1.dapr-nginx](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace_v1) | resource |
 
 ## Inputs
 
@@ -57,10 +57,12 @@ No modules.
 | <a name="input_dapr_ingress_hostname"></a> [dapr\_ingress\_hostname](#input\_dapr\_ingress\_hostname) | If a hostname is set, then the hostname must match the content of an incoming request before the load balancer directs traffic to the referenced Service. If one is not provided, then all incoming requests are accepted. | `string` | `null` | no |
 | <a name="input_dapr_nginx_namespace"></a> [dapr\_nginx\_namespace](#input\_dapr\_nginx\_namespace) | Default namespace for the Dapr NGINX. | `string` | `"dapr-nginx"` | no |
 | <a name="input_daprd_logging_level"></a> [daprd\_logging\_level](#input\_daprd\_logging\_level) | Sets the logging level of the daprd sidecar to either error, warn, info, or debug. | `string` | `"info"` | no |
+| <a name="input_enable_redis_tls"></a> [enable\_redis\_tls](#input\_enable\_redis\_tls) | Enable connecting to redis cache instances over TLS (ex - Azure Redis Cache). | `bool` | `false` | no |
 | <a name="input_enable_zipkin_support"></a> [enable\_zipkin\_support](#input\_enable\_zipkin\_support) | Indicates whether or not to add support for Zipkin to read distributed tracing data sent by Dapr enabled NGINX. | `bool` | `true` | no |
 | <a name="input_ingress_ip"></a> [ingress\_ip](#input\_ingress\_ip) | Used by cloud providers to connect the resulting `LoadBalancer` to a pre-existing static IP. | `string` | `null` | no |
 | <a name="input_nginx_replica_count"></a> [nginx\_replica\_count](#input\_nginx\_replica\_count) | Sets the number of replicas for NGINX. For minikube setups or to reduce in general, set to 1. | `number` | `2` | no |
 | <a name="input_nginx_version"></a> [nginx\_version](#input\_nginx\_version) | Version of NGINX to deploy if latest is not desired or version pinning is needed. | `string` | `"latest"` | no |
+| <a name="input_redis_namespace"></a> [redis\_namespace](#input\_redis\_namespace) | Namespace where Redis can be found, for example, the default namespace for Dapr applications. | `string` | `"dapr-apps"` | no |
 | <a name="input_zipkin_namespace"></a> [zipkin\_namespace](#input\_zipkin\_namespace) | Namespace where Zipkin can be found, for example, the default namespace for Dapr monitoring tools. | `string` | `"dapr-monitoring"` | no |
 
 ## Outputs

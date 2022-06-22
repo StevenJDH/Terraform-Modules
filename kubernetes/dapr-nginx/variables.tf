@@ -100,3 +100,15 @@ variable "create_redis_building_blocks" {
   type        = bool
   default     = false
 }
+
+variable "enable_redis_tls" {
+  description = "Enable connecting to redis cache instances over TLS (ex - Azure Redis Cache)."
+  type        = bool
+  default     = false
+}
+
+variable "redis_namespace" {
+  description = "Namespace where Redis can be found, for example, the default namespace for Dapr applications."
+  type        = string
+  default     = "dapr-apps"
+}

@@ -16,7 +16,7 @@
  */
 
 locals {
-  dapr_system_namespace     = var.create_dapr_system_namespace ? kubernetes_namespace.dapr-system[0].metadata[0].name : var.dapr_system_namespace
-  dapr_apps_namespace       = var.create_dapr_apps_namespace ? kubernetes_namespace.dapr-apps[0].metadata[0].name : var.dapr_apps_namespace
-  dapr_monitoring_namespace = var.create_dapr_monitoring_namespace ? kubernetes_namespace.dapr-monitoring[0].metadata[0].name : var.dapr_monitoring_namespace
+  dapr_system_namespace     = var.create_dapr_system_namespace ? kubernetes_namespace_v1.dapr-system[0].metadata[0].name : var.dapr_system_namespace
+  dapr_apps_namespace       = var.create_dapr_apps_namespace ? kubernetes_namespace_v1.dapr-apps[0].metadata[0].name : var.dapr_apps_namespace
+  dapr_monitoring_namespace = var.create_dapr_monitoring_namespace ? kubernetes_namespace_v1.dapr-monitoring[0].metadata[0].name : var.dapr_monitoring_namespace
 }

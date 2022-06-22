@@ -16,5 +16,5 @@
  */
 
 locals {
-  dapr_nginx_namespace = var.create_dapr_nginx_namespace ? kubernetes_namespace.dapr-nginx[0].metadata[0].name : var.dapr_nginx_namespace
+  dapr_nginx_namespace = var.create_dapr_nginx_namespace ? kubernetes_namespace_v1.dapr-nginx[0].metadata[0].name : var.dapr_nginx_namespace
 }

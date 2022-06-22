@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-resource "kubernetes_namespace" "dapr-system" {
+resource "kubernetes_namespace_v1" "dapr-system" {
   count = var.create_dapr_system_namespace ? 1 : 0
 
   metadata {
@@ -41,7 +41,7 @@ resource "helm_release" "dapr" {
   }
 }
 
-resource "kubernetes_namespace" "dapr-apps" {
+resource "kubernetes_namespace_v1" "dapr-apps" {
   count = var.create_dapr_apps_namespace ? 1 : 0
 
   metadata {

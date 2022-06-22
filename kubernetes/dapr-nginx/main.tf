@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-resource "kubernetes_namespace" "dapr-nginx" {
+resource "kubernetes_namespace_v1" "dapr-nginx" {
   count = var.create_dapr_nginx_namespace ? 1 : 0
 
   metadata {
@@ -123,13 +123,13 @@ spec:
   version: v1
   metadata:
   - name: redisHost
-    value: redis-master.dapr-apps.svc.cluster.local:6379
+    value: redis-master.${var.redis_namespace}.svc.cluster.local:6379
   - name: redisPassword
     secretKeyRef:
       name: redis
       key: redis-password
   - name: enableTLS
-    value: false
+    value: ${var.enable_redis_tls}
 YAML
 }
 
@@ -147,12 +147,12 @@ spec:
   version: v1
   metadata:
   - name: redisHost
-    value: redis-master.dapr-apps.svc.cluster.local:6379
+    value: redis-master.${var.redis_namespace}.svc.cluster.local:6379
   - name: redisPassword
     secretKeyRef:
       name: redis
       key: redis-password
-  #- name: enableTLS
-    #value: false
+  - name: enableTLS
+    value: ${var.enable_redis_tls}
 YAML
 }
