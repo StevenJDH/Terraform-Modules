@@ -47,9 +47,9 @@ output "subnet_ids_and_address_info" {
   value = tomap({
     for subnet in flatten([for e in aws_subnet.this.* : [for s in e : s]]) :
       subnet.id => {
-        arn = subnet.arn
-        ipv4_cidr_block = subnet.cidr_block
-        subnet_mask = cidrnetmask(subnet.cidr_block)
+        arn             = subnet.arn,
+        ipv4_cidr_block = subnet.cidr_block,
+        subnet_mask     = cidrnetmask(subnet.cidr_block),
         ipv6_cidr_block = subnet.ipv6_cidr_block
       }
   })
