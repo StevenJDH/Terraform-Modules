@@ -18,12 +18,12 @@
 module "vnet-with-subnets" {
   source = "../../../azure/vnet"
 
-  name = "vnet-example-${local.stage}"
-  create_resource_group   = true
-  resource_group_name = "rg-vnet-example-${local.stage}"
-  location = var.location
-  address_space = "10.0.0.0/16"
-  subnet_configuration = local.subnet_config
+  name                  = "vnet-example-${local.stage}"
+  create_resource_group = true
+  resource_group_name   = "rg-vnet-example-${local.stage}"
+  location              = var.location
+  address_space         = "10.0.0.0/16"
+  subnet_configuration  = local.subnet_config
 
   tags = local.tags
 }

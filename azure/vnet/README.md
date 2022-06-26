@@ -6,12 +6,12 @@
 module "vnet-with-subnets" {
   source = "github.com/StevenJDH/Terraform-Modules//azure/vnet?ref=main"
 
-  name = "vnet-example-dev"
-  create_resource_group   = true
-  resource_group_name = "rg-vnet-example-dev"
-  location = "West Europe"
-  address_space = "10.0.0.0/16"
-  subnet_configuration = [
+  name                  = "vnet-example-dev"
+  create_resource_group = true
+  resource_group_name   = "rg-vnet-example-dev"
+  location              = "West Europe"
+  address_space         = "10.0.0.0/16"
+  subnet_configuration  = [
     {
       subnet_name               = "snet-example1"
       new_bits                  = 8
@@ -105,7 +105,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_address_space"></a> [address\_space](#input\_address\_space) | The address space that is used the virtual network. | `string` | `"10.0.0.0/16"` | no |
+| <a name="input_address_space"></a> [address\_space](#input\_address\_space) | The address space that is used for the virtual network. | `string` | `"10.0.0.0/16"` | no |
 | <a name="input_create_resource_group"></a> [create\_resource\_group](#input\_create\_resource\_group) | Indicates whether or not to create a resource group. | `bool` | `true` | no |
 | <a name="input_dns_servers"></a> [dns\_servers](#input\_dns\_servers) | List of IP addresses of DNS servers. | `list(string)` | `[]` | no |
 | <a name="input_enforce_private_link_endpoint_network_policies"></a> [enforce\_private\_link\_endpoint\_network\_policies](#input\_enforce\_private\_link\_endpoint\_network\_policies) | Enable or Disable network policies for the private link endpoint on the subnet. Setting this to true will Disable the policy and setting this to false will Enable the policy. Network policies, like network security groups (NSG), are not supported for Private Link Endpoints or Private Link Services. In order to deploy a Private Link Endpoint on a given subnet, you must set the enforce\_private\_link\_endpoint\_network\_policies attribute to true. This setting is only applicable for the Private Link Endpoint, for all other resources in the subnet access is controlled based via the Network Security Group. | `bool` | `false` | no |
