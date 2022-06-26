@@ -53,7 +53,7 @@ variable "ingress_ip" {
 
 variable "dapr_custom_ingress_annotations" {
   description = "Use annotations to configure some ingress options, for example, the rewrite-target annotation. Different Ingress controllers support different annotations. Review the documentation for the [NGINX Ingress controller](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations) to learn which annotations are supported."
-  type = map(any)
+  type = map(string)
   default = {
     "nginx.ingress.kubernetes.io/rewrite-target" = "/"
   }
