@@ -1,6 +1,15 @@
 # Terraform-Modules
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/StevenJDH/Terraform-Modules?include_prereleases)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ae5bc009341c46dbb6ab3acf87163cbe)](https://www.codacy.com/gh/StevenJDH/Terraform-Modules/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=StevenJDH/Terraform-Modules&amp;utm_campaign=Badge_Grade)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
+[![Sonar Violations (long format)](https://img.shields.io/sonar/violations/StevenJDH_Terraform-Modules?format=long&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/dashboard?id=StevenJDH_Terraform-Modules)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
 ![Maintenance](https://img.shields.io/maintenance/yes/2022)
 ![GitHub](https://img.shields.io/github/license/StevenJDH/Terraform-Modules)
 
