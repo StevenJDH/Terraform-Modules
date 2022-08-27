@@ -19,6 +19,8 @@ resource "aws_vpc" "this" {
   cidr_block                       = var.cidr_block
   instance_tenancy                 = "default"
   assign_generated_ipv6_cidr_block = var.enable_ipv6
+  enable_dns_support               = var.enable_dns_support
+  enable_dns_hostnames             = var.enable_dns_hostnames
 
   tags = merge(
     { Name = var.name },
@@ -38,7 +40,7 @@ resource "aws_subnet" "this" {
   map_public_ip_on_launch = each.value.make_public
 
   tags = merge(
-    { Name = each.value.subnet_name != null ? each.value.subnet_name : format("snet-%s-%s-${each.key + 1}",
+    { Name = each.value.subnet_name != null ? each.value.subnet_name : format("subnet-${each.value.make_public ? "pub" : "priv"}-%s-%s-${each.key + 1}-${var.name}",
       cidrsubnet(var.cidr_block, each.value.new_bits, each.key),
       element(data.aws_availability_zones.available.names, index(local.zone_suffixes, each.value.availability_zone)))},
     var.tags,
@@ -55,7 +57,7 @@ resource "aws_route" "default-ngw" {
 }
 
 resource "aws_route" "default-egress_only_igw" {
-  count = var.add_default_routes && var.create_egress_only_internet_gateway && var.enable_ipv6 ? 1 : 0
+  count = var.enable_ipv6 && var.add_default_routes && var.create_egress_only_internet_gateway  ? 1 : 0
 
   route_table_id              = aws_vpc.this.default_route_table_id
   destination_ipv6_cidr_block = "::/0"
@@ -68,7 +70,7 @@ resource "aws_route_table" "private-gateway" {
   vpc_id = aws_vpc.this.id
 
   tags = merge(
-    { Name = format("rtb-priv-ngw-%s-%s", var.name, count.index) },
+    { Name = format("rtb-priv-ngw-%s-%s", count.index + 1, var.name) },
     var.tags,
     var.private_ngw_route_table_tags,
   )
@@ -87,7 +89,7 @@ resource "aws_route_table" "gateway" {
   vpc_id = aws_vpc.this.id
 
   tags = merge(
-    { Name = format("rtb-%s-%s", var.name, count.index) },
+    { Name = format("rtb-pub-%s-%s", count.index + 1, var.name) },
     var.tags,
     var.igw_route_table_tags,
   )
@@ -109,7 +111,7 @@ resource "aws_route" "gateway-ipv4" {
 }
 
 resource "aws_route" "gateway-ipv6" {
-  count = var.add_default_routes && local.igw_will_be_created ? local.gateway_default_routes_count : 0
+  count = var.enable_ipv6 && var.add_default_routes && local.igw_will_be_created ? local.gateway_default_routes_count : 0
 
   route_table_id              = aws_route_table.gateway[count.index].id
   destination_ipv6_cidr_block = "::/0"
@@ -123,8 +125,8 @@ resource "aws_nat_gateway" "private" {
   connectivity_type = "private"
 
   tags = merge(
-    { Name = format("ngw-%s-%s-${local.private_subnet_nats[count.index] + 1}", var.name,
-      aws_subnet.this[local.private_subnet_nats[count.index]].availability_zone) },
+    { Name = format("ngw-priv-%s-${local.private_subnet_nats[count.index] + 1}-%s",
+      aws_subnet.this[local.private_subnet_nats[count.index]].availability_zone, var.name) },
     var.tags,
     var.private_ngw_tags,
   )
@@ -136,8 +138,8 @@ resource "aws_eip" "nat" {
   vpc = true
 
   tags = merge(
-    { Name = format("eip-%s-%s-${local.public_subnet_nats[count.index] + 1}", var.name,
-      aws_subnet.this[local.public_subnet_nats[count.index]].availability_zone) },
+    { Name = format("eip-%s-${local.public_subnet_nats[count.index] + 1}-%s",
+      aws_subnet.this[local.public_subnet_nats[count.index]].availability_zone, var.name) },
     var.tags,
     var.eip_public_nat_tags,
   )
@@ -151,8 +153,8 @@ resource "aws_nat_gateway" "public" {
   connectivity_type = "public"
 
   tags = merge(
-    { Name = format("ngw-%s-%s-${local.public_subnet_nats[count.index] + 1}", var.name,
-      aws_subnet.this[local.public_subnet_nats[count.index]].availability_zone) },
+    { Name = format("ngw-pub-%s-${local.public_subnet_nats[count.index] + 1}-%s",
+      aws_subnet.this[local.public_subnet_nats[count.index]].availability_zone, var.name) },
     var.tags,
     var.public_ngw_tags,
   )

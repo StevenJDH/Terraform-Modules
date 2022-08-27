@@ -131,6 +131,8 @@ No modules.
 | <a name="input_create_internet_gateway"></a> [create\_internet\_gateway](#input\_create\_internet\_gateway) | Indicates whether or not to create an Internet Gateway for public subnets. Even if set to false, it will still be created if a public NAT is created. | `bool` | `false` | no |
 | <a name="input_eigw_tags"></a> [eigw\_tags](#input\_eigw\_tags) | Additional tags for the Egress Only Internet Gateway. | `map(string)` | `null` | no |
 | <a name="input_eip_public_nat_tags"></a> [eip\_public\_nat\_tags](#input\_eip\_public\_nat\_tags) | Additional tags for the public NAT Gateway Elastic IP. | `map(string)` | `null` | no |
+| <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | Indicates whether or not to enable/disable DNS hostnames in the VPC. Required for PrivateLinks and EKS. | `bool` | `false` | no |
+| <a name="input_enable_dns_support"></a> [enable\_dns\_support](#input\_enable\_dns\_support) | Indicates whether or not to enable/disable DNS support in the VPC. | `bool` | `true` | no |
 | <a name="input_enable_ipv6"></a> [enable\_ipv6](#input\_enable\_ipv6) | Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. | `bool` | `false` | no |
 | <a name="input_igw_route_table_tags"></a> [igw\_route\_table\_tags](#input\_igw\_route\_table\_tags) | Additional tags for the Internet Gateway route tables. | `map(string)` | `null` | no |
 | <a name="input_igw_tags"></a> [igw\_tags](#input\_igw\_tags) | Additional tags for the Internet Gateway. | `map(string)` | `null` | no |

@@ -26,6 +26,18 @@ variable "cidr_block" {
   default     = "10.0.0.0/16"
 }
 
+variable "enable_dns_support" {
+  description = "Indicates whether or not to enable/disable DNS support in the VPC."
+  type        = bool
+  default     = true
+}
+
+variable "enable_dns_hostnames" {
+  description = "Indicates whether or not to enable/disable DNS hostnames in the VPC. Required for PrivateLinks and EKS."
+  type        = bool
+  default     = false
+}
+
 variable "subnet_configuration" {
   description = "Sets the private and public subnet configuration. Optionally override subnet name, choose the availability zone using letters a to c, mark the subnet as public or not, and add a private or public NAT Gateway if needed. The new_bits attribute is the number of additional bits that defines the subnet's IPv4 CIDR block."
   type        = list(object({
