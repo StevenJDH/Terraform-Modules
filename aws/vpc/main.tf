@@ -56,7 +56,7 @@ resource "aws_route" "default-ngw" {
   nat_gateway_id         = aws_nat_gateway.public[0].id
 }
 
-resource "aws_route" "default-egress_only_igw" {
+resource "aws_route" "default-egress-only-igw" {
   count = var.enable_ipv6 && var.add_default_routes && var.create_egress_only_internet_gateway  ? 1 : 0
 
   route_table_id              = aws_vpc.this.default_route_table_id
