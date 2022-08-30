@@ -20,6 +20,12 @@ locals {
     for k, v in var.subnet_configuration : k => v if v.make_public
   }))
 
+  private_subnets = keys(tomap({
+    for k, v in var.subnet_configuration : k => v if !v.make_public
+  }))
+
+  create_private_rt_tables = !var.single_private_route_table && length(local.private_subnets) > 1 && length(local.private_subnet_nats) == 0
+
   zone_suffixes                = ["a", "b", "c"]
   igw_will_be_created          = var.create_internet_gateway || length(local.public_subnet_nats) > 0
   gateway_default_routes_count = var.single_public_route_table && length(local.public_subnets) > 0 ? 1 : length(local.public_subnets)

@@ -23,7 +23,7 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames             = var.enable_dns_hostnames
 
   tags = merge(
-    { Name = var.name },
+    { Name = "vpc-${var.name}" },
     var.tags,
     var.vpc_tags,
   )
@@ -48,10 +48,20 @@ resource "aws_subnet" "this" {
   )
 }
 
+resource "aws_default_route_table" "this" {
+  default_route_table_id = aws_vpc.this.default_route_table_id
+
+  tags = merge(
+    { Name = format("rtb-default-priv-%s", var.name) },
+    var.tags,
+    var.default_private_route_table_tags,
+  )
+}
+
 resource "aws_route" "default-ngw" {
   count = var.add_default_routes && length(local.public_subnet_nats) == 1 ? 1 : 0
 
-  route_table_id         = aws_vpc.this.default_route_table_id
+  route_table_id         = aws_default_route_table.this.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.public[0].id
 }
@@ -59,9 +69,119 @@ resource "aws_route" "default-ngw" {
 resource "aws_route" "default-egress-only-igw" {
   count = var.enable_ipv6 && var.add_default_routes && var.create_egress_only_internet_gateway  ? 1 : 0
 
-  route_table_id              = aws_vpc.this.default_route_table_id
+  route_table_id              = aws_default_route_table.this.id
   destination_ipv6_cidr_block = "::/0"
   egress_only_gateway_id      = aws_egress_only_internet_gateway.this[0].id
+}
+
+# Rules can only be managed here inline.
+resource "aws_default_network_acl" "this" {
+  default_network_acl_id = aws_vpc.this.default_network_acl_id
+
+  dynamic "ingress" {
+    for_each = var.default_acl_ingress_rules
+
+    content {
+      rule_no         = ingress.value.rule_no
+      action          = ingress.value.action
+      protocol        = ingress.value.protocol
+      from_port       = ingress.value.from_port
+      to_port         = ingress.value.to_port
+      cidr_block      = ingress.value.cidr_block
+      icmp_code       = ingress.value.icmp_code
+      icmp_type       = ingress.value.icmp_type
+      ipv6_cidr_block = ingress.value.ipv6_cidr_block
+    }
+  }
+
+  dynamic "egress" {
+    for_each = var.default_acl_egress_rules
+
+    content {
+      rule_no         = egress.value.rule_no
+      action          = egress.value.action
+      protocol        = egress.value.protocol
+      from_port       = egress.value.from_port
+      to_port         = egress.value.to_port
+      cidr_block      = egress.value.cidr_block
+      icmp_code       = egress.value.icmp_code
+      icmp_type       = egress.value.icmp_type
+      ipv6_cidr_block = egress.value.ipv6_cidr_block
+    }
+  }
+
+  # Prevents plan showing orphaned subnets that have been removed from another ACL.
+  lifecycle {
+    ignore_changes = [subnet_ids]
+  }
+
+  tags = merge(
+    { Name = format("acl-default-%s", var.name) },
+    var.tags,
+    var.default_acl_tags,
+  )
+}
+
+# Rules can only be managed here inline.
+resource "aws_default_security_group" "this" {
+  vpc_id = aws_vpc.this.id
+
+  dynamic "ingress" {
+    for_each = var.default_security_group_ingress_rules
+
+    content {
+      description      = ingress.value.description
+      protocol         = ingress.value.protocol
+      from_port        = ingress.value.from_port
+      to_port          = ingress.value.to_port
+      prefix_list_ids  = ingress.value.prefix_list_ids
+      security_groups  = ingress.value.security_groups
+      cidr_blocks      = ingress.value.cidr_blocks
+      ipv6_cidr_blocks = ingress.value.ipv6_cidr_blocks
+      self             = ingress.value.self
+    }
+  }
+
+  dynamic "egress" {
+    for_each = var.default_security_group_egress_rules
+
+    content {
+      description      = egress.value.description
+      protocol         = egress.value.protocol
+      from_port        = egress.value.from_port
+      to_port          = egress.value.to_port
+      prefix_list_ids  = egress.value.prefix_list_ids
+      security_groups  = egress.value.security_groups
+      cidr_blocks      = egress.value.cidr_blocks
+      ipv6_cidr_blocks = egress.value.ipv6_cidr_blocks
+      self             = egress.value.self
+    }
+  }
+
+  tags = merge(
+    { Name = format("sg-default-%s", var.name) },
+    var.tags,
+    var.default_security_group_tags,
+  )
+}
+
+resource "aws_route_table" "private" {
+  count = local.create_private_rt_tables ? length(local.private_subnets) : 0
+
+  vpc_id = aws_vpc.this.id
+
+  tags = merge(
+    { Name = format("rtb-priv-%s-%s", count.index + 1, var.name) },
+    var.tags,
+    var.private_route_table_tags,
+  )
+}
+
+resource "aws_route_table_association" "private" {
+  count = local.create_private_rt_tables ? length(local.private_subnets) : 0
+
+  subnet_id      = aws_subnet.this[local.private_subnets[count.index]].id
+  route_table_id = aws_route_table.private[count.index].id
 }
 
 resource "aws_route_table" "private-gateway" {

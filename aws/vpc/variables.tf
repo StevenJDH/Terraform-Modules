@@ -64,8 +64,120 @@ variable "subnet_configuration" {
   }
 }
 
+variable "default_acl_ingress_rules" {
+  description = "Configuration for default ACL ingress rules."
+  type = list(object({
+    rule_no         = number
+    action          = string
+    protocol        = number
+    from_port       = number
+    to_port         = number
+    cidr_block      = optional(string)
+    icmp_code       = optional(number)
+    icmp_type       = optional(number)
+    ipv6_cidr_block = optional(string)
+  }))
+  default = [
+    {
+      rule_no         = 100
+      action          = "allow"
+      protocol        = -1
+      from_port       = 0
+      to_port         = 0
+      cidr_block      = "0.0.0.0/0"
+      icmp_code       = null
+      icmp_type       = null
+      ipv6_cidr_block = null
+    },
+  ]
+}
+
+variable "default_acl_egress_rules" {
+  description = "Configuration for default ACL egress rules."
+  type = list(object({
+    rule_no         = number
+    action          = string
+    protocol        = number
+    from_port       = number
+    to_port         = number
+    cidr_block      = optional(string)
+    icmp_code       = optional(number)
+    icmp_type       = optional(number)
+    ipv6_cidr_block = optional(string)
+  }))
+  default = [
+    {
+      rule_no         = 100
+      action          = "allow"
+      protocol        = -1
+      from_port       = 0
+      to_port         = 0
+      cidr_block      = "0.0.0.0/0"
+      icmp_code       = null
+      icmp_type       = null
+      ipv6_cidr_block = null
+    },
+  ]
+}
+
+variable "default_security_group_ingress_rules" {
+  description = "Configuration for default security group ingress rules."
+  type = list(object({
+    description      = optional(string)
+    protocol         = string
+    from_port        = number
+    to_port          = number
+    prefix_list_ids  = optional(list(string))
+    security_groups  = optional(set(string))
+    cidr_blocks      = optional(list(string))
+    ipv6_cidr_blocks = optional(list(string))
+    self             = optional(bool)
+  }))
+  default = [
+    {
+      description      = null
+      protocol         = "-1"
+      from_port        = 0
+      to_port          = 0
+      prefix_list_ids  = null
+      security_groups  = null
+      cidr_blocks      = null
+      ipv6_cidr_blocks = null
+      self             = true
+    },
+  ]
+}
+
+variable "default_security_group_egress_rules" {
+  description = "Configuration for default security group egress rules."
+  type = list(object({
+    description      = optional(string)
+    protocol         = string
+    from_port        = number
+    to_port          = number
+    prefix_list_ids  = optional(list(string))
+    security_groups  = optional(set(string))
+    cidr_blocks      = optional(list(string))
+    ipv6_cidr_blocks = optional(list(string))
+    self             = optional(bool)
+  }))
+  default = [
+    {
+      description      = null
+      protocol         = "-1"
+      from_port        = 0
+      to_port          = 0
+      prefix_list_ids  = null
+      security_groups  = null
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = null
+      self             = null
+    },
+  ]
+}
+
 variable "single_private_route_table" {
-  description = "Indicates whether or not to provision a single shared route table for the private NAT Gateway."
+  description = "Indicates whether or not to keep private subnets on the default route table, or if more than one, provision each private subnet its own route table."
   type        = bool
   default     = true
 }
@@ -120,6 +232,30 @@ variable "private_subnet_tags" {
 
 variable "public_subnet_tags" {
   description = "Additional tags for the public subnets."
+  type        = map(string)
+  default     = null
+}
+
+variable "default_private_route_table_tags" {
+  description = "Additional tags for the default private route table."
+  type        = map(string)
+  default     = null
+}
+
+variable "private_route_table_tags" {
+  description = "Additional tags for the private route tables."
+  type        = map(string)
+  default     = null
+}
+
+variable "default_acl_tags" {
+  description = "Additional tags for the default ACL."
+  type        = map(string)
+  default     = null
+}
+
+variable "default_security_group_tags" {
+  description = "Additional tags for the default security group."
   type        = map(string)
   default     = null
 }

@@ -47,6 +47,14 @@ output "subnet_ids_and_address_info" {
   value = module.vpc-example.subnet_ids_and_address_info
 }
 
+output "route_table_private_ids" {
+  value = module.vpc-example.route_table_private_ids
+}
+
+output "route_table_private_arns" {
+  value = module.vpc-example.route_table_private_arns
+}
+
 output "route_table_private_gateway_ids" {
   value = module.vpc-example.route_table_private_gateway_ids
 }

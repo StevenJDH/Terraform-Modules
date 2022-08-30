@@ -40,8 +40,10 @@ No resources.
 | <a name="output_public_nat_ids"></a> [public\_nat\_ids](#output\_public\_nat\_ids) | n/a |
 | <a name="output_route_table_gateway_arns"></a> [route\_table\_gateway\_arns](#output\_route\_table\_gateway\_arns) | n/a |
 | <a name="output_route_table_gateway_ids"></a> [route\_table\_gateway\_ids](#output\_route\_table\_gateway\_ids) | n/a |
+| <a name="output_route_table_private_arns"></a> [route\_table\_private\_arns](#output\_route\_table\_private\_arns) | n/a |
 | <a name="output_route_table_private_gateway_arns"></a> [route\_table\_private\_gateway\_arns](#output\_route\_table\_private\_gateway\_arns) | n/a |
 | <a name="output_route_table_private_gateway_ids"></a> [route\_table\_private\_gateway\_ids](#output\_route\_table\_private\_gateway\_ids) | n/a |
+| <a name="output_route_table_private_ids"></a> [route\_table\_private\_ids](#output\_route\_table\_private\_ids) | n/a |
 | <a name="output_subnet_ids_and_address_info"></a> [subnet\_ids\_and\_address\_info](#output\_subnet\_ids\_and\_address\_info) | n/a |
 | <a name="output_vpc_arn"></a> [vpc\_arn](#output\_vpc\_arn) | n/a |
 | <a name="output_vpc_default_network_acl_id"></a> [vpc\_default\_network\_acl\_id](#output\_vpc\_default\_network\_acl\_id) | n/a |

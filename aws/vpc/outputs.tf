@@ -56,6 +56,14 @@ output "subnet_ids_and_address_info" {
   ])
 }
 
+output "route_table_private_ids" {
+  value = try(aws_route_table.private[*].id, null)
+}
+
+output "route_table_private_arns" {
+  value = try(aws_route_table.private[*].arn, null)
+}
+
 output "route_table_private_gateway_ids" {
   value = try(aws_route_table.private-gateway[*].id, null)
 }
