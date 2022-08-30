@@ -40,19 +40,20 @@ output "vpc_default_security_group_id" {
 }
 
 output "vpc_ipv6_association_id" {
-  value = aws_vpc.this.ipv6_association_id
+  value = aws_vpc.this.ipv6_association_id != "" ? aws_vpc.this.ipv6_association_id : null
 }
 
 output "subnet_ids_and_address_info" {
-  value = tomap({
+  value = tolist([
     for subnet in flatten([for e in aws_subnet.this.* : [for s in e : s]]) :
-      subnet.id => {
+      {
+        id              = subnet.id,
         arn             = subnet.arn,
         ipv4_cidr_block = subnet.cidr_block,
         subnet_mask     = cidrnetmask(subnet.cidr_block),
         ipv6_cidr_block = subnet.ipv6_cidr_block
       }
-  })
+  ])
 }
 
 output "route_table_private_gateway_ids" {
