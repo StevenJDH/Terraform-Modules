@@ -24,11 +24,14 @@ locals {
     for k, v in var.subnet_configuration : k => v if !v.make_public
   }))
 
-  create_private_rt_tables = !var.single_private_route_table && length(local.private_subnets) > 1 && length(local.private_subnet_nats) == 0
-
-  zone_suffixes                = ["a", "b", "c"]
-  igw_will_be_created          = var.create_internet_gateway || length(local.public_subnet_nats) > 0
-  gateway_default_routes_count = var.single_public_route_table && length(local.public_subnets) > 0 ? 1 : length(local.public_subnets)
+  create_private_rt_tables               = !var.single_private_route_table && length(local.private_subnets) > 0 && length(local.private_subnet_nats) == 0
+  create_default_private_rt_entries      = var.add_default_routes && var.single_private_route_table && length(local.public_subnet_nats) == 1
+  create_private_rt_entries              = var.add_default_routes && length(local.public_subnet_nats) > 0 && local.create_private_rt_tables
+  create_ipv6_private_rt_entries         = var.enable_ipv6 && var.add_default_routes && !var.single_private_route_table && var.create_egress_only_internet_gateway
+  create_default_ipv6_private_rt_entries = var.enable_ipv6 && var.add_default_routes && var.single_private_route_table && var.create_egress_only_internet_gateway
+  zone_suffixes                          = ["a", "b", "c"]
+  igw_will_be_created                    = var.create_internet_gateway || length(local.public_subnet_nats) > 0
+  gateway_default_routes_count           = var.single_public_route_table && length(local.public_subnets) > 0 ? 1 : length(local.public_subnets)
 
   private_subnet_nats = keys(tomap({
     for k, v in var.subnet_configuration : k => v if v.create_nat_gateway && !v.make_public

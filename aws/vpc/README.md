@@ -1,5 +1,15 @@
 # AWS VPC Module
 
+## Feature highlights
+
+* Support for multiple subnet use cases, including high availability and automatic route table configuration.
+* Includes many best practices being baked into the setup.
+* Smart resource naming and tagging strategies, including default resources.
+* Support for PrivateLink use cases and other VPC dependent services like EKS.
+* Automatic subnetting using just a bit number to help prevent miscalculations.
+
+**Note:** For multiple NATs across different AZs for high availability, each private subnet will point to its paired public subnet or the last one listed. For example, the first listed private subnet will point to the first listed public subnet with a public NAT and so on.
+
 ## Usage
 
 ```hcl
@@ -112,10 +122,12 @@ No modules.
 | [aws_internet_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
 | [aws_nat_gateway.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
 | [aws_nat_gateway.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
-| [aws_route.default-egress-only-igw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.default-ngw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.default-priv-2-egress-only-igw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.default-priv-2-pub-ngw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.gateway-ipv4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.gateway-ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.priv-2-egress-only-igw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.priv-2-pub-ngw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route_table.gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table.private-gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
@@ -130,7 +142,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_add_default_routes"></a> [add\_default\_routes](#input\_add\_default\_routes) | Indicates whether or not to add default routes when possible to a public NAT in the default route table, and the Internet Gateway to the gateway route table. | `bool` | `true` | no |
+| <a name="input_add_default_routes"></a> [add\_default\_routes](#input\_add\_default\_routes) | Indicates whether or not to add default routes when possible to a public NAT in the default route table or any private route tables, and the Internet Gateway to any gateway route tables. | `bool` | `true` | no |
 | <a name="input_cidr_block"></a> [cidr\_block](#input\_cidr\_block) | The IPv4 CIDR block for the VPC. | `string` | `"10.0.0.0/16"` | no |
 | <a name="input_create_egress_only_internet_gateway"></a> [create\_egress\_only\_internet\_gateway](#input\_create\_egress\_only\_internet\_gateway) | Indicates whether or not to create an Egress Only Internet Gateway for private subnets with support for IPv6 addresses. The enable\_ipv6 attribute must also be set to true. | `bool` | `false` | no |
 | <a name="input_create_internet_gateway"></a> [create\_internet\_gateway](#input\_create\_internet\_gateway) | Indicates whether or not to create an Internet Gateway for public subnets. Even if set to false, it will still be created if a public NAT is created. | `bool` | `false` | no |
@@ -155,9 +167,9 @@ No modules.
 | <a name="input_private_subnet_tags"></a> [private\_subnet\_tags](#input\_private\_subnet\_tags) | Additional tags for the private subnets. | `map(string)` | `null` | no |
 | <a name="input_public_ngw_tags"></a> [public\_ngw\_tags](#input\_public\_ngw\_tags) | Additional tags for the public NAT Gateway. | `map(string)` | `null` | no |
 | <a name="input_public_subnet_tags"></a> [public\_subnet\_tags](#input\_public\_subnet\_tags) | Additional tags for the public subnets. | `map(string)` | `null` | no |
-| <a name="input_single_private_route_table"></a> [single\_private\_route\_table](#input\_single\_private\_route\_table) | Indicates whether or not to keep private subnets on the default route table, or if more than one, provision each private subnet its own route table. | `bool` | `true` | no |
-| <a name="input_single_public_route_table"></a> [single\_public\_route\_table](#input\_single\_public\_route\_table) | Indicates whether or not to provision a single shared route table for the public subnets. | `bool` | `true` | no |
-| <a name="input_subnet_configuration"></a> [subnet\_configuration](#input\_subnet\_configuration) | Sets the private and public subnet configuration. Optionally override subnet name, choose the availability zone using letters a to c, mark the subnet as public or not, and add a private or public NAT Gateway if needed. The new\_bits attribute is the number of additional bits that defines the subnet's IPv4 CIDR block. | <pre>list(object({<br>    subnet_name               = optional(string)<br>    new_bits                  = number<br>    availability_zone         = string<br>    make_public               = bool<br>    create_nat_gateway        = bool<br>  }))</pre> | <pre>[<br>  {<br>    "availability_zone": "a",<br>    "create_nat_gateway": false,<br>    "make_public": false,<br>    "new_bits": 8,<br>    "subnet_name": null<br>  }<br>]</pre> | no |
+| <a name="input_single_private_route_table"></a> [single\_private\_route\_table](#input\_single\_private\_route\_table) | Indicates whether or not to keep private subnets on the default route table, or provision each private subnet its own route table. | `bool` | `true` | no |
+| <a name="input_single_public_route_table"></a> [single\_public\_route\_table](#input\_single\_public\_route\_table) | Indicates whether or not to provision a single shared route table for public subnets, or provision each public subnet its own route table. | `bool` | `true` | no |
+| <a name="input_subnet_configuration"></a> [subnet\_configuration](#input\_subnet\_configuration) | Sets the private and public subnet configuration. Optionally override subnet name, choose the availability zone using letters a to c, mark the subnet as public or not, and add multiple private or public NAT Gateways as needed. The new\_bits attribute is the number of additional bits that defines the subnet's IPv4 CIDR block. For multiple NATs across different AZs for high availability, each private subnet will point to its paired public subnet or the last one listed. For example, the first listed private subnet will point to the first listed public subnet with a public NAT and so on. | <pre>list(object({<br>    subnet_name               = optional(string)<br>    new_bits                  = number<br>    availability_zone         = string<br>    make_public               = bool<br>    create_nat_gateway        = bool<br>  }))</pre> | <pre>[<br>  {<br>    "availability_zone": "a",<br>    "create_nat_gateway": false,<br>    "make_public": false,<br>    "new_bits": 8,<br>    "subnet_name": null<br>  }<br>]</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `null` | no |
 | <a name="input_vpc_tags"></a> [vpc\_tags](#input\_vpc\_tags) | Additional tags for the VPC. | `map(string)` | `null` | no |
 
@@ -173,8 +185,10 @@ No modules.
 | <a name="output_public_nat_ids"></a> [public\_nat\_ids](#output\_public\_nat\_ids) | n/a |
 | <a name="output_route_table_gateway_arns"></a> [route\_table\_gateway\_arns](#output\_route\_table\_gateway\_arns) | n/a |
 | <a name="output_route_table_gateway_ids"></a> [route\_table\_gateway\_ids](#output\_route\_table\_gateway\_ids) | n/a |
+| <a name="output_route_table_private_arns"></a> [route\_table\_private\_arns](#output\_route\_table\_private\_arns) | n/a |
 | <a name="output_route_table_private_gateway_arns"></a> [route\_table\_private\_gateway\_arns](#output\_route\_table\_private\_gateway\_arns) | n/a |
 | <a name="output_route_table_private_gateway_ids"></a> [route\_table\_private\_gateway\_ids](#output\_route\_table\_private\_gateway\_ids) | n/a |
+| <a name="output_route_table_private_ids"></a> [route\_table\_private\_ids](#output\_route\_table\_private\_ids) | n/a |
 | <a name="output_subnet_ids_and_address_info"></a> [subnet\_ids\_and\_address\_info](#output\_subnet\_ids\_and\_address\_info) | n/a |
 | <a name="output_vpc_arn"></a> [vpc\_arn](#output\_vpc\_arn) | n/a |
 | <a name="output_vpc_default_network_acl_id"></a> [vpc\_default\_network\_acl\_id](#output\_vpc\_default\_network\_acl\_id) | n/a |

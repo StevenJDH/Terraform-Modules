@@ -58,18 +58,34 @@ resource "aws_default_route_table" "this" {
   )
 }
 
-resource "aws_route" "default-ngw" {
-  count = var.add_default_routes && length(local.public_subnet_nats) == 1 ? 1 : 0
+resource "aws_route" "default-priv-2-pub-ngw" {
+  count = local.create_default_private_rt_entries ? 1 : 0
 
   route_table_id         = aws_default_route_table.this.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.public[0].id
 }
 
-resource "aws_route" "default-egress-only-igw" {
-  count = var.enable_ipv6 && var.add_default_routes && var.create_egress_only_internet_gateway  ? 1 : 0
+resource "aws_route" "priv-2-pub-ngw" {
+  count = local.create_private_rt_entries ? length(local.private_subnets) : 0
+
+  route_table_id         = aws_route_table.private[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = count.index < length(local.public_subnet_nats) ? aws_nat_gateway.public[count.index].id : aws_nat_gateway.public[length(local.public_subnet_nats) - 1].id
+}
+
+resource "aws_route" "default-priv-2-egress-only-igw" {
+  count = local.create_default_ipv6_private_rt_entries ? 1 : 0
 
   route_table_id              = aws_default_route_table.this.id
+  destination_ipv6_cidr_block = "::/0"
+  egress_only_gateway_id      = aws_egress_only_internet_gateway.this[0].id
+}
+
+resource "aws_route" "priv-2-egress-only-igw" {
+  count = local.create_ipv6_private_rt_entries ? length(local.private_subnets) : 0
+
+  route_table_id              = aws_route_table.private[count.index].id
   destination_ipv6_cidr_block = "::/0"
   egress_only_gateway_id      = aws_egress_only_internet_gateway.this[0].id
 }

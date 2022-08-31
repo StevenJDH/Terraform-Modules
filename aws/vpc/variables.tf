@@ -39,7 +39,7 @@ variable "enable_dns_hostnames" {
 }
 
 variable "subnet_configuration" {
-  description = "Sets the private and public subnet configuration. Optionally override subnet name, choose the availability zone using letters a to c, mark the subnet as public or not, and add a private or public NAT Gateway if needed. The new_bits attribute is the number of additional bits that defines the subnet's IPv4 CIDR block."
+  description = "Sets the private and public subnet configuration. Optionally override subnet name, choose the availability zone using letters a to c, mark the subnet as public or not, and add multiple private or public NAT Gateways as needed. The new_bits attribute is the number of additional bits that defines the subnet's IPv4 CIDR block. For multiple NATs across different AZs for high availability, each private subnet will point to its paired public subnet or the last one listed. For example, the first listed private subnet will point to the first listed public subnet with a public NAT and so on."
   type        = list(object({
     subnet_name               = optional(string)
     new_bits                  = number
@@ -177,13 +177,13 @@ variable "default_security_group_egress_rules" {
 }
 
 variable "single_private_route_table" {
-  description = "Indicates whether or not to keep private subnets on the default route table, or if more than one, provision each private subnet its own route table."
+  description = "Indicates whether or not to keep private subnets on the default route table, or provision each private subnet its own route table."
   type        = bool
   default     = true
 }
 
 variable "single_public_route_table" {
-  description = "Indicates whether or not to provision a single shared route table for the public subnets."
+  description = "Indicates whether or not to provision a single shared route table for public subnets, or provision each public subnet its own route table."
   type        = bool
   default     = true
 }
@@ -207,7 +207,7 @@ variable "enable_ipv6" {
 }
 
 variable "add_default_routes" {
-  description = "Indicates whether or not to add default routes when possible to a public NAT in the default route table, and the Internet Gateway to the gateway route table."
+  description = "Indicates whether or not to add default routes when possible to a public NAT in the default route table or any private route tables, and the Internet Gateway to any gateway route tables."
   type        = bool
   default     = true
 }
