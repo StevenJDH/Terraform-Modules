@@ -16,7 +16,7 @@
  */
 
 terraform {
-  required_version = "~> 1.0" # TODO: Change to "~> 1.30" once released and remove experiments.
+  required_version = ">= 1.0.0" # TODO: Change to ">= 1.30.0" once released and remove experiments.
   experiments = [module_variable_optional_attrs]
 
   required_providers {
