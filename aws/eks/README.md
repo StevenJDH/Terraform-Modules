@@ -94,7 +94,7 @@ module "custom-eks" {
 ## Default configuration
 If no options are configured, then a default, two availability zone EKS cluster will be created using t3.medium worker nodes in private subnets with a public API server endpoint. The below diagram is an overview of this setup, which models one of the use cases found in the [Creating a VPC for your Amazon EKS cluster](https://docs.aws.amazon.com/eks/latest/userguide/creating-a-vpc.html) documentation.
 
-![Default EKS Cluster Diagram](eks-default-cluster.png "Diagram")
+<img src="eks-default-cluster.png" alt="Default EKS Cluster Diagram" title="Diagram" width="700"/>
 
 If help is needed for calculating subnets, start [here](https://www.site24x7.com/tools/ipv4-subnetcalculator.html). Additionally, there is great Linux tool called `ipcalc` that can provide a full view with in-depth explanation. See the following examples:
 
