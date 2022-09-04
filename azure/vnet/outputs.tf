@@ -24,11 +24,12 @@ output "vnet_id" {
 }
 
 output "subnet_ids_and_address_info" {
-  value = tomap({
+  value = tolist([
     for subnet in azurerm_subnet.this.* :
-      subnet.id => {
+      {
+        id             = subnet.id,
         address_prefix = subnet.address_prefixes[0],
         subnet_mask    = cidrnetmask(subnet.address_prefixes[0])
       }
-  })
+  ])
 }
