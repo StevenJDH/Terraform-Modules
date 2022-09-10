@@ -1,6 +1,6 @@
 # Azure Workload Identity Module
 
-<img src="azwi-diagram.png" alt="Azure AD Workload Identity Diagram" title="Diagram" width="700"/>
+<img src="azwi-diagram.png" alt="Azure AD Workload Identity Diagram" title="Diagram" width="800"/>
 
 Azure AD Workload Identity for Kubernetes integrates with the capabilities native to Kubernetes to federate with external identity providers. This approach is simpler to use and deploy, and overcomes several limitations in Azure AD Pod Identity:
 
