@@ -22,7 +22,7 @@ locals {
     create_service_account    = true
     service_account_name      = "azwi-test-sa"
     service_account_token_exp = "86400"
-    roles                  = [
+    roles                     = [
       {
         scope     = var.deploy_azwi_test ? azurerm_key_vault.azwi-test[0].id : null # Avoids conflict on delete.
         role_name = "Key Vault Secrets User"

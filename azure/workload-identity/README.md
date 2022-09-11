@@ -206,7 +206,7 @@ spec:
 ....
 ```
 
-**value.yaml**
+**values.yaml**
 
 ```yaml
 serviceAccount:
