@@ -80,6 +80,12 @@ variable "sku_name" {
   }
 }
 
+variable "enable_rbac_authorization" {
+  description = "Indicates whether or not Azure Key Vault uses Role Based Access Control (RBAC) for authorization of data actions. For more information, see [Azure built-in roles for Key Vault data plane operations](https://docs.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli#azure-built-in-roles-for-key-vault-data-plane-operations)."
+  type        = bool
+  default     = false
+}
+
 variable "network_acls" {
   description = "Specifies whether Azure service traffic can bypass the network rules, default action to use when no rules match from ip_rules / virtual_network_subnet_ids, and One or more Subnet IDs which should be able to access this Key Vault."
   type = object({

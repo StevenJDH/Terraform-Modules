@@ -36,6 +36,7 @@ resource "azurerm_key_vault" "this" {
   soft_delete_retention_days      = var.soft_delete_retention_days
   purge_protection_enabled        = var.enable_purge_protection
   sku_name                        = var.sku_name
+  enable_rbac_authorization       = var.enable_rbac_authorization
 
   dynamic network_acls {
     for_each = var.network_acls == null ? [] : [true]
