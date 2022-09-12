@@ -29,6 +29,43 @@ resource "aws_s3_bucket" "irsa-test" {
   tags = var.tags
 }
 
+resource "aws_s3_bucket_public_access_block" "irsa-test-block-public-access" {
+  count = var.deploy_irsa_test ? 1 : 0
+
+  bucket                  = aws_s3_bucket.irsa-test[0].id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_policy" "irsa-test-enforce-https-only" {
+  count = var.deploy_irsa_test ? 1 : 0
+
+  bucket = aws_s3_bucket.irsa-test[0].id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "S3EnforceHTTPSOnly"
+        Effect    = "Deny"
+        Action    = "s3:*"
+        Principal = "*"
+        Resource = [
+          aws_s3_bucket.irsa-test[0].arn,
+          "${aws_s3_bucket.irsa-test[0].arn}/*",
+        ]
+        Condition = {
+          Bool = {
+            "aws:SecureTransport" = "false"
+          }
+        }
+      },
+    ]
+  })
+}
+
 resource "aws_s3_object" "irsa-test" {
   count = var.deploy_irsa_test ? 1 : 0
 
