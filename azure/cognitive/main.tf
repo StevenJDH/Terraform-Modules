@@ -52,6 +52,10 @@ resource "azurerm_cognitive_account" "this" {
     }
   }
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   tags = var.tags
 }
 
