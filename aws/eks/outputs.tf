@@ -172,6 +172,10 @@ output "eks_cluster_role_name" {
   value = aws_iam_role.eks-cluster.name
 }
 
+output "eks_cluster_oidc_issuer_url" {
+  value = aws_eks_cluster.this.identity[0].oidc[0].issuer
+}
+
 output "kubeconfig_cmd" {
   value = "aws eks update-kubeconfig --region ${data.aws_region.current.name} --name eks-${var.cluster_name}"
 }

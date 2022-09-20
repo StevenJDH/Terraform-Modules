@@ -40,6 +40,7 @@ No resources.
 | <a name="output_custom_eks_cloudwatch_log_group_arn"></a> [custom\_eks\_cloudwatch\_log\_group\_arn](#output\_custom\_eks\_cloudwatch\_log\_group\_arn) | n/a |
 | <a name="output_custom_eks_cloudwatch_log_group_id"></a> [custom\_eks\_cloudwatch\_log\_group\_id](#output\_custom\_eks\_cloudwatch\_log\_group\_id) | n/a |
 | <a name="output_custom_eks_cloudwatch_log_group_name"></a> [custom\_eks\_cloudwatch\_log\_group\_name](#output\_custom\_eks\_cloudwatch\_log\_group\_name) | n/a |
+| <a name="output_custom_eks_cluster_oidc_issuer_url"></a> [custom\_eks\_cluster\_oidc\_issuer\_url](#output\_custom\_eks\_cluster\_oidc\_issuer\_url) | n/a |
 | <a name="output_custom_eks_cluster_role_arn"></a> [custom\_eks\_cluster\_role\_arn](#output\_custom\_eks\_cluster\_role\_arn) | n/a |
 | <a name="output_custom_eks_cluster_role_id"></a> [custom\_eks\_cluster\_role\_id](#output\_custom\_eks\_cluster\_role\_id) | n/a |
 | <a name="output_custom_eks_cluster_role_name"></a> [custom\_eks\_cluster\_role\_name](#output\_custom\_eks\_cluster\_role\_name) | n/a |
@@ -76,6 +77,7 @@ No resources.
 | <a name="output_simple_eks_cloudwatch_log_group_arn"></a> [simple\_eks\_cloudwatch\_log\_group\_arn](#output\_simple\_eks\_cloudwatch\_log\_group\_arn) | n/a |
 | <a name="output_simple_eks_cloudwatch_log_group_id"></a> [simple\_eks\_cloudwatch\_log\_group\_id](#output\_simple\_eks\_cloudwatch\_log\_group\_id) | n/a |
 | <a name="output_simple_eks_cloudwatch_log_group_name"></a> [simple\_eks\_cloudwatch\_log\_group\_name](#output\_simple\_eks\_cloudwatch\_log\_group\_name) | n/a |
+| <a name="output_simple_eks_cluster_oidc_issuer_url"></a> [simple\_eks\_cluster\_oidc\_issuer\_url](#output\_simple\_eks\_cluster\_oidc\_issuer\_url) | n/a |
 | <a name="output_simple_eks_cluster_role_arn"></a> [simple\_eks\_cluster\_role\_arn](#output\_simple\_eks\_cluster\_role\_arn) | n/a |
 | <a name="output_simple_eks_cluster_role_id"></a> [simple\_eks\_cluster\_role\_id](#output\_simple\_eks\_cluster\_role\_id) | n/a |
 | <a name="output_simple_eks_cluster_role_name"></a> [simple\_eks\_cluster\_role\_name](#output\_simple\_eks\_cluster\_role\_name) | n/a |

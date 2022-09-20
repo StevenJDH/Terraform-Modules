@@ -156,6 +156,10 @@ output "simple_eks_cluster_role_name" {
   value = module.simple-eks.eks_cluster_role_name
 }
 
+output "simple_eks_cluster_oidc_issuer_url" {
+  value = module.simple-eks.eks_cluster_oidc_issuer_url
+}
+
 output "simple_eks_kubeconfig_cmd" {
   value = module.simple-eks.kubeconfig_cmd
 }
@@ -299,6 +303,10 @@ output "custom_eks_cluster_role_arn" {
 
 output "custom_eks_cluster_role_name" {
   value = module.custom-eks.eks_cluster_role_name
+}
+
+output "custom_eks_cluster_oidc_issuer_url" {
+  value = module.custom-eks.eks_cluster_oidc_issuer_url
 }
 
 output "custom_eks_kubeconfig_cmd" {
