@@ -1,13 +1,13 @@
-# Ingress NGINX Controller Module
+# Ingress NGINX Controller for AWS Module
 
 ## Feature highlights
 
-* Optional auto association of Ingress NGINX controller load balancer with Route53 A records.
+* Optional auto association of Ingress NGINX controller load balancer with AWS Route 53 A records.
 * Free, recognized certificates signed by Amazon and Let's Encrypt with auto verification.
 * Load balancer TLS termination with optional Amazon certificate.
 * Ingress NGINX controller TLS termination with optional Let's Encrypt certificate.
 * Support for Let's Encrypt HTTP01 and DNS01 (supports wildcard) Acme Challenge Types.
-* Support for IRSA when using DNS01 challenge type to auto manage Route53 TXT challenges.
+* Support for IRSA when using DNS01 challenge type to auto manage AWS Route 53 TXT challenges.
 * Support for Let's Encrypt Staging and Production endpoints using the latest ACME v2 protocol.
 * EKS cluster scoped certificate issuing using Let's Encrypt Cluster Issuer.
 

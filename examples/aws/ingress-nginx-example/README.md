@@ -1,4 +1,4 @@
-# Ingress NGINX Controller Module Example
+# Ingress NGINX Controller for AWS Module Example
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
