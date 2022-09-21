@@ -8,6 +8,7 @@
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | ~> 2.2 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.1 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0 |
 
 ## Providers
@@ -46,6 +47,8 @@ No resources.
 | <a name="output_custom_eks_cluster_role_name"></a> [custom\_eks\_cluster\_role\_name](#output\_custom\_eks\_cluster\_role\_name) | n/a |
 | <a name="output_custom_eks_cluster_security_group_id"></a> [custom\_eks\_cluster\_security\_group\_id](#output\_custom\_eks\_cluster\_security\_group\_id) | n/a |
 | <a name="output_custom_eks_eip_public_nat_ids"></a> [custom\_eks\_eip\_public\_nat\_ids](#output\_custom\_eks\_eip\_public\_nat\_ids) | n/a |
+| <a name="output_custom_eks_fargate_role_arn"></a> [custom\_eks\_fargate\_role\_arn](#output\_custom\_eks\_fargate\_role\_arn) | n/a |
+| <a name="output_custom_eks_fargate_role_name"></a> [custom\_eks\_fargate\_role\_name](#output\_custom\_eks\_fargate\_role\_name) | n/a |
 | <a name="output_custom_eks_internet_gateway_arn"></a> [custom\_eks\_internet\_gateway\_arn](#output\_custom\_eks\_internet\_gateway\_arn) | n/a |
 | <a name="output_custom_eks_internet_gateway_id"></a> [custom\_eks\_internet\_gateway\_id](#output\_custom\_eks\_internet\_gateway\_id) | n/a |
 | <a name="output_custom_eks_kubeconfig_certificate_authority_data"></a> [custom\_eks\_kubeconfig\_certificate\_authority\_data](#output\_custom\_eks\_kubeconfig\_certificate\_authority\_data) | n/a |
@@ -83,6 +86,8 @@ No resources.
 | <a name="output_simple_eks_cluster_role_name"></a> [simple\_eks\_cluster\_role\_name](#output\_simple\_eks\_cluster\_role\_name) | n/a |
 | <a name="output_simple_eks_cluster_security_group_id"></a> [simple\_eks\_cluster\_security\_group\_id](#output\_simple\_eks\_cluster\_security\_group\_id) | n/a |
 | <a name="output_simple_eks_eip_public_nat_ids"></a> [simple\_eks\_eip\_public\_nat\_ids](#output\_simple\_eks\_eip\_public\_nat\_ids) | n/a |
+| <a name="output_simple_eks_fargate_role_arn"></a> [simple\_eks\_fargate\_role\_arn](#output\_simple\_eks\_fargate\_role\_arn) | n/a |
+| <a name="output_simple_eks_fargate_role_name"></a> [simple\_eks\_fargate\_role\_name](#output\_simple\_eks\_fargate\_role\_name) | n/a |
 | <a name="output_simple_eks_internet_gateway_arn"></a> [simple\_eks\_internet\_gateway\_arn](#output\_simple\_eks\_internet\_gateway\_arn) | n/a |
 | <a name="output_simple_eks_internet_gateway_id"></a> [simple\_eks\_internet\_gateway\_id](#output\_simple\_eks\_internet\_gateway\_id) | n/a |
 | <a name="output_simple_eks_kubeconfig_certificate_authority_data"></a> [simple\_eks\_kubeconfig\_certificate\_authority\_data](#output\_simple\_eks\_kubeconfig\_certificate\_authority\_data) | n/a |

@@ -16,3 +16,9 @@
  */
 
 data "aws_region" "current" {}
+
+data "aws_eks_cluster_auth" "current" {
+  count = local.apply_fargate_coredns_patch ? 1 : 0
+
+  name = aws_eks_cluster.this.id
+}

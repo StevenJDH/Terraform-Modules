@@ -3,6 +3,8 @@
 ## Feature highlights
 
 * Automatic configuration of all EKS and related resources.
+* Support for managed nodes and serverless nodes via Fargate in mixed environment, or fully serverless.
+* Auto patching of coredns when running kube-system namespace on serverless node via Fargate.
 * Support for multiple subnet use cases, including high availability and automatic route table configuration.
 * Includes many best practices being baked into the setup.
 * Smart resource naming and tagging strategies, including default resources.
@@ -37,6 +39,8 @@ module "custom-eks" {
   public_access_cidrs              = ["0.0.0.0/0"]
   service_ipv4_cidr                = "172.20.0.0/16"
   enable_node_ssh_access           = true
+  fargate_namespaces               = ["kube-system"]
+  enable_fargate_only              = false
   
   eks_subnet_configuration = [
     {
@@ -192,6 +196,7 @@ If describing a pod that isn't ready shows a reason of `FailedScheduling` and a 
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | ~> 2.2 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.1 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0 |
 
 ## Providers
@@ -200,6 +205,7 @@ If describing a pod that isn't ready shows a reason of `FailedScheduling` and a 
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
 | <a name="provider_local"></a> [local](#provider\_local) | ~> 2.2 |
+| <a name="provider_null"></a> [null](#provider\_null) | ~> 3.1 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | ~> 4.0 |
 
 ## Modules
@@ -215,18 +221,25 @@ If describing a pod that isn't ready shows a reason of `FailedScheduling` and a 
 | [aws_cloudwatch_log_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_eks_addon.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_cluster.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) | resource |
+| [aws_eks_fargate_profile.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_fargate_profile) | resource |
 | [aws_eks_node_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_iam_role.eks-cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.eks-fargate](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.eks-node](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.ec2-container-registry-read-only](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.eks-cluster-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.eks-cni-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.eks-fargate-pod-execution-role-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.eks-vpc-resource-controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.eks-worker-node-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_key_pair.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_s3_object.ssh-key-pair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) | resource |
+| [local_file.fargate-coredns-patch-ca](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
+| [local_file.fargate-coredns-patch-json](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [local_sensitive_file.ssh-key-pair](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/sensitive_file) | resource |
+| [null_resource.fargate-coredns-patch](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [tls_private_key.ssh](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
+| [aws_eks_cluster_auth.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster_auth) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
@@ -241,10 +254,12 @@ If describing a pod that isn't ready shows a reason of `FailedScheduling` and a 
 | <a name="input_eks_subnet_configuration"></a> [eks\_subnet\_configuration](#input\_eks\_subnet\_configuration) | Sets the private and public subnet configuration. Choose the availability zone using letters a to c, mark the subnet as public or not, add a private or public NAT Gateway if needed, and select which subnets will host the EKS worker nodes. The new\_bits attribute is the number of additional bits that defines the subnet's IPv4 CIDR block. For more information, see [Amazon EKS VPC and subnet requirements and considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html). | <pre>list(object({<br>    new_bits                  = number<br>    availability_zone         = string<br>    make_public               = bool<br>    create_nat_gateway        = bool<br>    allow_worker_nodes        = bool<br>  }))</pre> | <pre>[<br>  {<br>    "allow_worker_nodes": false,<br>    "availability_zone": "a",<br>    "create_nat_gateway": true,<br>    "make_public": true,<br>    "new_bits": 8<br>  },<br>  {<br>    "allow_worker_nodes": true,<br>    "availability_zone": "a",<br>    "create_nat_gateway": false,<br>    "make_public": false,<br>    "new_bits": 8<br>  },<br>  {<br>    "allow_worker_nodes": false,<br>    "availability_zone": "b",<br>    "create_nat_gateway": true,<br>    "make_public": true,<br>    "new_bits": 8<br>  },<br>  {<br>    "allow_worker_nodes": true,<br>    "availability_zone": "b",<br>    "create_nat_gateway": false,<br>    "make_public": false,<br>    "new_bits": 8<br>  }<br>]</pre> | no |
 | <a name="input_eks_tags"></a> [eks\_tags](#input\_eks\_tags) | Additional tags for EKS. | `map(string)` | `null` | no |
 | <a name="input_enable_cluster_log_types"></a> [enable\_cluster\_log\_types](#input\_enable\_cluster\_log\_types) | List of the desired control plane logging to enable. For more information, see [Amazon EKS Control Plane Logging](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html). | `list(string)` | <pre>[<br>  "api",<br>  "audit"<br>]</pre> | no |
+| <a name="input_enable_fargate_only"></a> [enable\_fargate\_only](#input\_enable\_fargate\_only) | Indicates whether or not to configure the cluster to only have Fargate serverless nodes. As part of this, `kube-system` and `default` namespaces will be included automatically as Fargate namespaces. Containers running in this mode can't assume the IAM permissions associated with a Pod execution role. To give these containers permissions to access other AWS services, deploy the [AWS IRSA (IAM Roles for Service Accounts) module](https://github.com/StevenJDH/Terraform-Modules/tree/main/aws/irsa). | `bool` | `false` | no |
 | <a name="input_enable_node_ssh_access"></a> [enable\_node\_ssh\_access](#input\_enable\_node\_ssh\_access) | Indicates whether or not to provide access for SSH communication with the worker nodes in the EKS Node Groups. If set to true, ensure that the Terraform state file is stored on encrypted storage like an AWS S3 bucket with SSE-S3 enabled to better protect the SSH key in the state file. | `bool` | `false` | no |
 | <a name="input_enable_ssh_access_from_internet"></a> [enable\_ssh\_access\_from\_internet](#input\_enable\_ssh\_access\_from\_internet) | Indicates whether or not to open port 22 on the worker nodes to the Internet (0.0.0.0/0). This option is only meant for testing. Setting to it to false will automatically associate the VPC's default security group. | `bool` | `false` | no |
 | <a name="input_endpoint_private_access"></a> [endpoint\_private\_access](#input\_endpoint\_private\_access) | Indicates whether or not to enable access to the EKS private API server endpoint. | `bool` | `false` | no |
 | <a name="input_endpoint_public_access"></a> [endpoint\_public\_access](#input\_endpoint\_public\_access) | Indicates whether or not to enable access to the EKS public API server endpoint. If set to true, an Internet Gateway is automatically created, and if false, one is still created if `create_nat_gateway` and `make_public` are true in `eks_subnet_configuration`. | `bool` | `true` | no |
+| <a name="input_fargate_namespaces"></a> [fargate\_namespaces](#input\_fargate\_namespaces) | List of dedicated namespaces that will run Pods on Fargate serverless nodes, but the actual namespaces in the cluster will still need to be created. If the `kube-system` namespace is added, coredns will be patched (ec2 annotation removed) to run on it. Containers running in a Fargate namespace can't assume the IAM permissions associated with a Pod execution role. To give these containers permissions to access other AWS services, deploy the [AWS IRSA (IAM Roles for Service Accounts) module](https://github.com/StevenJDH/Terraform-Modules/tree/main/aws/irsa). | `set(string)` | `[]` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | Desired Kubernetes master version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except those automatically triggered by EKS. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by EKS. | `string` | `null` | no |
 | <a name="input_private_subnet_tags"></a> [private\_subnet\_tags](#input\_private\_subnet\_tags) | Additional tags for the private subnets. | `map(string)` | `null` | no |
 | <a name="input_public_access_cidrs"></a> [public\_access\_cidrs](#input\_public\_access\_cidrs) | Public access source whitelist. Indicates which CIDR blocks can access the Amazon EKS public API server endpoint when enabled. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
@@ -274,6 +289,8 @@ If describing a pod that isn't ready shows a reason of `FailedScheduling` and a 
 | <a name="output_eks_cluster_role_arn"></a> [eks\_cluster\_role\_arn](#output\_eks\_cluster\_role\_arn) | n/a |
 | <a name="output_eks_cluster_role_id"></a> [eks\_cluster\_role\_id](#output\_eks\_cluster\_role\_id) | n/a |
 | <a name="output_eks_cluster_role_name"></a> [eks\_cluster\_role\_name](#output\_eks\_cluster\_role\_name) | n/a |
+| <a name="output_eks_fargate_role_arn"></a> [eks\_fargate\_role\_arn](#output\_eks\_fargate\_role\_arn) | n/a |
+| <a name="output_eks_fargate_role_name"></a> [eks\_fargate\_role\_name](#output\_eks\_fargate\_role\_name) | n/a |
 | <a name="output_eks_node_role_arn"></a> [eks\_node\_role\_arn](#output\_eks\_node\_role\_arn) | n/a |
 | <a name="output_eks_node_role_id"></a> [eks\_node\_role\_id](#output\_eks\_node\_role\_id) | n/a |
 | <a name="output_eks_node_role_name"></a> [eks\_node\_role\_name](#output\_eks\_node\_role\_name) | n/a |

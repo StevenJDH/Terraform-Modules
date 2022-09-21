@@ -37,4 +37,17 @@ locals {
   ])
 
   worker_nodes_subnet_ids = [for idx in local.worker_nodes_subnet_indexes : element(local.subnet_ids, idx)]
+
+  # Doing this here so same information can be checked by coredns patch for Fargate.
+  eks_cluster_addons = tomap({
+    for addon in var.eks_cluster_addons : addon.name => addon
+  })
+
+  fargate_worker_nodes_subnet_indexes = tolist([
+    for idx, v in var.eks_subnet_configuration : idx if v.allow_worker_nodes && !v.make_public
+  ])
+
+  fargate_worker_nodes_subnet_ids = [for idx in local.fargate_worker_nodes_subnet_indexes : element(local.subnet_ids, idx)]
+  fargate_namespaces              = var.enable_fargate_only ? setunion(var.fargate_namespaces, ["kube-system", "default"]) : var.fargate_namespaces
+  apply_fargate_coredns_patch     = !var.enable_fargate_only && length(var.eks_node_group_config) > 0 && contains(keys(local.eks_cluster_addons), "coredns") && contains(local.fargate_namespaces, "kube-system")
 }

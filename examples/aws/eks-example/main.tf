@@ -37,6 +37,8 @@ module "custom-eks" {
   public_access_cidrs              = ["0.0.0.0/0"]
   service_ipv4_cidr                = "172.20.0.0/16"
   enable_node_ssh_access           = true
+  fargate_namespaces               = ["kube-system"]
+  enable_fargate_only              = false
 
   tags = local.tags
 }

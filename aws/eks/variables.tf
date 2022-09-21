@@ -187,6 +187,18 @@ variable "eks_cluster_addons" {
   ]
 }
 
+variable "fargate_namespaces" {
+  description = "List of dedicated namespaces that will run Pods on Fargate serverless nodes, but the actual namespaces in the cluster will still need to be created. If the `kube-system` namespace is added, coredns will be patched (ec2 annotation removed) to run on it. Containers running in a Fargate namespace can't assume the IAM permissions associated with a Pod execution role. To give these containers permissions to access other AWS services, deploy the [AWS IRSA (IAM Roles for Service Accounts) module](https://github.com/StevenJDH/Terraform-Modules/tree/main/aws/irsa)."
+  type        = set(string)
+  default     = []
+}
+
+variable "enable_fargate_only" {
+  description = "Indicates whether or not to configure the cluster to only have Fargate serverless nodes. As part of this, `kube-system` and `default` namespaces will be included automatically as Fargate namespaces. Containers running in this mode can't assume the IAM permissions associated with a Pod execution role. To give these containers permissions to access other AWS services, deploy the [AWS IRSA (IAM Roles for Service Accounts) module](https://github.com/StevenJDH/Terraform-Modules/tree/main/aws/irsa)."
+  type        = bool
+  default     = false
+}
+
 variable "enable_node_ssh_access" {
   description = "Indicates whether or not to provide access for SSH communication with the worker nodes in the EKS Node Groups. If set to true, ensure that the Terraform state file is stored on encrypted storage like an AWS S3 bucket with SSE-S3 enabled to better protect the SSH key in the state file."
   type        = bool

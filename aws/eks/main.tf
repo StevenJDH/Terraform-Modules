@@ -71,22 +71,22 @@ resource "aws_eks_cluster" "this" {
 }
 
 resource "aws_eks_addon" "this" {
-  for_each  = tomap({
-    for addon in var.eks_cluster_addons : addon.name => addon
-  })
+  for_each  = local.eks_cluster_addons
 
   cluster_name      = aws_eks_cluster.this.id
   addon_name        = each.value.name
   addon_version     = each.value.version
   resolve_conflicts = "OVERWRITE"
+
+  tags = var.tags
 }
 
 resource "aws_eks_node_group" "this" {
-  count = length(var.eks_node_group_config)
+  count = !var.enable_fargate_only ? length(var.eks_node_group_config) : 0
 
   cluster_name           = aws_eks_cluster.this.name
   node_group_name_prefix = var.eks_node_group_config[count.index].prefix != null ? var.eks_node_group_config[count.index].prefix : "minion-"
-  node_role_arn          = aws_iam_role.eks-node.arn
+  node_role_arn          = aws_iam_role.eks-node[0].arn
   subnet_ids             = local.worker_nodes_subnet_ids
   instance_types         = [var.eks_node_group_config[count.index].instance_type]
   capacity_type          = var.eks_node_group_config[count.index].capacity_type
@@ -162,8 +162,8 @@ resource "aws_key_pair" "this" {
 resource "local_sensitive_file" "ssh-key-pair" {
   count = var.enable_node_ssh_access && var.save_ssh_key_pair_locally ? 1 : 0
 
-  content         =  tls_private_key.ssh[0].private_key_pem
-  filename        =  "${path.cwd}/${aws_key_pair.this[0].key_name}.pem"
+  content         = tls_private_key.ssh[0].private_key_pem
+  filename        = "${path.cwd}/${aws_key_pair.this[0].key_name}.pem"
   file_permission = "0700"
 }
 
@@ -188,6 +188,8 @@ resource "aws_cloudwatch_log_group" "this" {
 }
 
 resource "aws_iam_role" "eks-node" {
+  count = !var.enable_fargate_only ? 1 : 0
+
   name        = "eks-node-role-${var.cluster_name}"
   description = "Amazon EKS - Node role."
 
@@ -209,24 +211,30 @@ resource "aws_iam_role" "eks-node" {
 }
 
 resource "aws_iam_role_policy_attachment" "eks-worker-node-policy" {
+  count = !var.enable_fargate_only ? 1 : 0
+
   # This policy allows Amazon EKS worker nodes to connect to Amazon EKS Clusters.
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.eks-node.name
+  role       = aws_iam_role.eks-node[0].name
 }
 
 resource "aws_iam_role_policy_attachment" "ec2-container-registry-read-only" {
+  count = !var.enable_fargate_only ? 1 : 0
+
   # Provides read-only access to Amazon EC2 Container Registry repositories.
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.eks-node.name
+  role       = aws_iam_role.eks-node[0].name
 }
 
 resource "aws_iam_role_policy_attachment" "eks-cni-policy" {
+  count = !var.enable_fargate_only ? 1 : 0
+
   # This policy provides the Amazon VPC CNI Plugin (amazon-vpc-cni-k8s) the permissions it
   # requires to modify the IP address configuration on your EKS worker nodes. This
   # permission set allows the CNI to list, describe, and modify Elastic Network Interfaces
   # on your behalf.
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.eks-node.name
+  role       = aws_iam_role.eks-node[0].name
 }
 
 resource "aws_iam_role" "eks-cluster" {

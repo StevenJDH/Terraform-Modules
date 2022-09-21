@@ -149,15 +149,15 @@ output "cloudwatch_log_group_name" {
 }
 
 output "eks_node_role_id" {
-  value = aws_iam_role.eks-node.id
+  value = try(aws_iam_role.eks-node[0].id, null)
 }
 
 output "eks_node_role_arn" {
-  value = aws_iam_role.eks-node.arn
+  value = try(aws_iam_role.eks-node[0].arn, null)
 }
 
 output "eks_node_role_name" {
-  value = aws_iam_role.eks-node.name
+  value = try(aws_iam_role.eks-node[0].name, null)
 }
 
 output "eks_cluster_role_id" {
@@ -174,6 +174,14 @@ output "eks_cluster_role_name" {
 
 output "eks_cluster_oidc_issuer_url" {
   value = aws_eks_cluster.this.identity[0].oidc[0].issuer
+}
+
+output "eks_fargate_role_arn" {
+  value = try(aws_iam_role.eks-fargate[0].arn, null)
+}
+
+output "eks_fargate_role_name" {
+  value = try(aws_iam_role.eks-fargate[0].name, null)
 }
 
 output "kubeconfig_cmd" {
