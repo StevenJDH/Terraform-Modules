@@ -92,11 +92,19 @@ module "efs-lambda" {
 ```
 
 ## Function deployment package
-To create a deployment package for a function, zip the file or files needed for deployment. Next, run the following commands to create a file containing the base64 encoded SHA256 hash of the archive (Windows users can use git bash):
+To create a deployment package for a function, zip the file or files needed for deployment. Next, run the following commands to create a file containing the base64 encoded SHA256 hash of the archive:
 
+**Bash** (Windows users can use git bash)
 ```bash
 package=app-0.1.0-aws.zip
 openssl dgst -sha256 -binary $package | openssl enc -base64 > $package.base64sha256
+```
+
+**Windows Command Prompt**
+
+```batch
+set package=app-0.1.0-aws.zip
+openssl dgst -sha256 -binary %package% | openssl enc -base64 > %package%.base64sha256
 ```
 
 Finally, upload the archive and the hash file to a centralized S3 bucket to make it ready for deployment. If versioning is enabled, setting `s3_zip_object_version` and `s3_hash_object_version` with the versioning IDs for the file pairs will enable rollbacks as needed.
