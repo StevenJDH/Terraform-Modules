@@ -27,7 +27,7 @@ variable "s3_bucket_name" {
 }
 
 variable "lambda_functions" {
-  description = "Sets the Lambda configuration, which manages, basic config, VPC access, EFS mount points, and role config. The function deployment packages must be available in a centralized S3 bucket along with their hash file to detect changes. If `deployment_package_key` isn't specified, then it's assumed that the deployment package key matches the function name with `.zip` at the end. The deployment package key can also include folder names in the S3 bucket. See [Runtimes](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) for valid values when selecting the programming language."
+  description = "Sets the Lambda configuration, which manages basic config, VPC access, EFS mount points, event triggers, and role config. The function deployment packages must be available in a centralized S3 bucket along with their hash file to detect changes. If `deployment_package_key` isn't specified, then it's assumed that the deployment package key matches the function name with `.zip` at the end. The deployment package key can also include folder names in the S3 bucket. See [Runtimes](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) for valid values when selecting the programming language."
   type        = list(object({
     function_name            = string
     description              = optional(string)
@@ -36,6 +36,9 @@ variable "lambda_functions" {
     timeout_in_seconds       = optional(number, 3)
     ephemeral_storage_size   = optional(number, 512)
     environment_variables    = optional(map(string), {})
+    enable_event_source      = optional(bool, false)
+    event_source_arn         = optional(string)
+    event_source_batch_size  = optional(number, 1)
     deployment_package_key   = optional(string)
     s3_zip_object_version    = optional(string)
     s3_hash_object_version   = optional(string)

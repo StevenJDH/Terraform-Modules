@@ -24,6 +24,10 @@ locals {
     for k, v in var.lambda_functions : k => v if v.invoke_with_payload != null
   })
 
+  lambdas_with_triggers = tomap({
+    for k, v in var.lambda_functions : k => v if v.enable_event_source
+  })
+
   policy_arns = flatten([
     for k, v in var.lambda_functions : [
       for policy_arn in v.additional_policy_arns : {

@@ -185,3 +185,12 @@ resource "aws_lambda_invocation" "this" {
     redeployment = aws_lambda_function.this[each.key].source_code_hash
   }
 }
+
+resource "aws_lambda_event_source_mapping" "this" {
+  for_each = local.lambdas_with_triggers
+
+  event_source_arn = each.value.event_source_arn
+  enabled          = true
+  function_name    = aws_lambda_function.this[each.key].arn
+  batch_size       = each.value.event_source_batch_size
+}
