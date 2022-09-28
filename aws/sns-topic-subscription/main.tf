@@ -21,6 +21,6 @@ resource "aws_sns_topic_subscription" "this" {
   topic_arn = data.aws_sns_topic.current.arn
   protocol  = each.value.protocol
   endpoint  = each.key
-  raw_message_delivery = coalesce(each.value.raw_message_delivery, false)
+  raw_message_delivery = each.value.raw_message_delivery
   filter_policy = each.value.filter_policy
 }

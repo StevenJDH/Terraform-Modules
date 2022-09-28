@@ -16,8 +16,7 @@
  */
 
 terraform {
-  required_version = ">= 1.0.0" # TODO: Change to ">= 1.30.0" once released and remove experiments.
-  experiments = [module_variable_optional_attrs]
+  required_version = ">= 1.3.0"
 
   required_providers {
     aws = {

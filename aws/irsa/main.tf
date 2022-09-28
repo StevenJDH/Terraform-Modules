@@ -73,7 +73,7 @@ resource "kubernetes_service_account_v1" "this" {
       "eks.amazonaws.com/audience"               = local.oidc_audience
       "eks.amazonaws.com/role-arn"               = aws_iam_role.this[each.key].arn
       "eks.amazonaws.com/sts-regional-endpoints" = "true" # Recommended to use regional endpoint in almost all cases.
-      "eks.amazonaws.com/token-expiration"       = coalesce(each.value.service_account_token_exp, "86400")
+      "eks.amazonaws.com/token-expiration"       = each.value.service_account_token_exp
     }
   }
 }

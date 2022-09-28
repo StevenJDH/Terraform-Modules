@@ -85,7 +85,7 @@ resource "aws_eks_node_group" "this" {
   count = !var.enable_fargate_only ? length(var.eks_node_group_config) : 0
 
   cluster_name           = aws_eks_cluster.this.name
-  node_group_name_prefix = var.eks_node_group_config[count.index].prefix != null ? var.eks_node_group_config[count.index].prefix : "minion-"
+  node_group_name_prefix = var.eks_node_group_config[count.index].prefix
   node_role_arn          = aws_iam_role.eks-node[0].arn
   subnet_ids             = local.worker_nodes_subnet_ids
   instance_types         = [var.eks_node_group_config[count.index].instance_type]

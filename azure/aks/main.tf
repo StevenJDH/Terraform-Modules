@@ -37,13 +37,13 @@ resource "azurerm_kubernetes_cluster" "this" {
   http_application_routing_enabled  = var.enable_http_application_routing
 
   default_node_pool {
-    name                         = coalesce(var.default_node_pool.name, "default")
-    node_count                   = coalesce(var.default_node_pool.node_count, 1)
+    name                         = var.default_node_pool.name
+    node_count                   = var.default_node_pool.node_count
     vm_size                      = var.default_node_pool.vm_size
     vnet_subnet_id               = var.default_node_pool.vnet_subnet_id
-    enable_auto_scaling          = coalesce(var.default_node_pool.enable_auto_scaling, false) # If false, set min_count and max_count to null.
-    min_count                    = coalesce(var.default_node_pool.enable_auto_scaling, false) == true ? coalesce(var.default_node_pool.scaling_min_count, 1) : null
-    max_count                    = coalesce(var.default_node_pool.enable_auto_scaling, false) == true ? coalesce(var.default_node_pool.scaling_max_count, 1) : null
+    enable_auto_scaling          = var.default_node_pool.enable_auto_scaling # If false, set min_count and max_count to null.
+    min_count                    = var.default_node_pool.enable_auto_scaling ? var.default_node_pool.scaling_min_count : null
+    max_count                    = var.default_node_pool.enable_auto_scaling ? var.default_node_pool.scaling_max_count : null
     only_critical_addons_enabled = length(var.secondary_node_pools) > 0 && var.enable_only_critical_addons
   }
 
@@ -76,10 +76,10 @@ resource "azurerm_kubernetes_cluster" "this" {
     content {
       network_plugin     = lower(var.network_profile.network_policy) == "azure" ? "azure" : var.network_profile.network_plugin
       network_policy     = var.network_profile.network_policy
-      service_cidr       = var.network_profile.network_plugin == "kubenet" ? null : coalesce(var.network_profile.service_cidr, "10.100.0.0/16")
-      dns_service_ip     = var.network_profile.network_plugin == "kubenet" ? null : coalesce(var.network_profile.dns_service_ip, "10.100.0.10")
-      docker_bridge_cidr = var.network_profile.network_plugin == "kubenet" ? null : coalesce(var.network_profile.docker_bridge_cidr, "172.17.0.1/16")
-      outbound_type      = coalesce(var.network_profile.outbound_type, "loadBalancer")
+      service_cidr       = var.network_profile.network_plugin == "kubenet" ? null : var.network_profile.service_cidr
+      dns_service_ip     = var.network_profile.network_plugin == "kubenet" ? null : var.network_profile.dns_service_ip
+      docker_bridge_cidr = var.network_profile.network_plugin == "kubenet" ? null : var.network_profile.docker_bridge_cidr
+      outbound_type      = var.network_profile.outbound_type
       load_balancer_sku  = "standard"
     }
   }
@@ -98,14 +98,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "this" {
   count = length(var.secondary_node_pools)
 
   kubernetes_cluster_id = azurerm_kubernetes_cluster.this.id
-  name                  = coalesce(var.secondary_node_pools[count.index].name, "minion")
-  node_count            = coalesce(var.secondary_node_pools[count.index].node_count, 1)
+  name                  = var.secondary_node_pools[count.index].name
+  node_count            = var.secondary_node_pools[count.index].node_count
   vm_size               = var.secondary_node_pools[count.index].vm_size
   vnet_subnet_id        = var.secondary_node_pools[count.index].vnet_subnet_id
-  os_type               = coalesce(var.secondary_node_pools[count.index].os_type, "Linux")
-  enable_auto_scaling   = coalesce(var.secondary_node_pools[count.index].enable_auto_scaling, false) # If false, set min_count and max_count to null.
-  min_count             = coalesce(var.secondary_node_pools[count.index].enable_auto_scaling, false) == true ? coalesce(var.secondary_node_pools[count.index].min_count, 1) : null
-  max_count             = coalesce(var.secondary_node_pools[count.index].enable_auto_scaling, false) == true ? coalesce(var.secondary_node_pools[count.index].max_count, 1) : null
+  os_type               = var.secondary_node_pools[count.index].os_type
+  enable_auto_scaling   = var.secondary_node_pools[count.index].enable_auto_scaling # If false, set min_count and max_count to null.
+  min_count             = var.secondary_node_pools[count.index].enable_auto_scaling ? var.secondary_node_pools[count.index].min_count : null
+  max_count             = var.secondary_node_pools[count.index].enable_auto_scaling ? var.secondary_node_pools[count.index].max_count : null
   node_taints           = var.secondary_node_pools[count.index].node_taints
 
   lifecycle {

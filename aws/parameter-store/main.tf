@@ -20,7 +20,7 @@ resource "aws_ssm_parameter" "this" {
 
   name        = each.key
   description = each.value.description
-  type        = coalesce(each.value.secure, false) ? "SecureString" : "String"
+  type        = each.value.secure ? "SecureString" : "String"
   value       = each.value.value
   tier        = each.value.tier
 

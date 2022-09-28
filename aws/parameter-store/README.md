@@ -23,7 +23,7 @@ module "parameter-store-example" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 
 ## Providers
@@ -46,7 +46,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_configuration"></a> [configuration](#input\_configuration) | A map of configuration. Valid tiers are Standard, Advanced, and Intelligent-Tiering, but if not specified, default for region is used. | <pre>map(object({<br>    description = optional(string)<br>    value       = string<br>    tier        = optional(string)<br>    secure      = optional(bool)<br>  }))</pre> | n/a | yes |
+| <a name="input_configuration"></a> [configuration](#input\_configuration) | A map of configuration. Valid tiers are Standard, Advanced, and Intelligent-Tiering, but if not specified, default for region is used. | <pre>map(object({<br>    description = optional(string)<br>    value       = string<br>    tier        = optional(string)<br>    secure      = optional(bool, false)<br>  }))</pre> | n/a | yes |
 | <a name="input_secret"></a> [secret](#input\_secret) | Indicates whether or not to define configuration as a secret. | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource tags. | `map(string)` | `null` | no |
 

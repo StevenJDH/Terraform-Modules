@@ -132,7 +132,7 @@ variable "service_ipv4_cidr" {
 variable "eks_node_group_config" {
   description = "Sets the EKS Node Group configuration, which can provision and optionally update an Auto Scaling Group of Kubernetes worker nodes compatible with EKS."
   type        = list(object({
-    prefix                 = optional(string)
+    prefix                 = optional(string, "minion-")
     instance_type          = string
     capacity_type          = string
     disk_size              = number
@@ -145,8 +145,8 @@ variable "eks_node_group_config" {
       value  = string
       effect = string
     }))
-    update_max_unavailable = optional(number)
-    update_max_unavailable_percentage = optional(number)
+    update_max_unavailable = optional(number, 1)
+    update_max_unavailable_percentage = optional(number, null)
   }))
   default     = [
     {

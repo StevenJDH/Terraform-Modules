@@ -96,7 +96,7 @@ resource "kubernetes_service_account_v1" "this" {
 
     annotations = {
       "azure.workload.identity/client-id"                        = azuread_application.this[each.key].application_id
-      "azure.workload.identity/service-account-token-expiration" = coalesce(each.value.service_account_token_exp, "86400")
+      "azure.workload.identity/service-account-token-expiration" = each.value.service_account_token_exp
     }
   }
 }

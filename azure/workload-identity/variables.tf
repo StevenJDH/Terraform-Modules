@@ -34,7 +34,7 @@ variable "azwi_application_config" {
     namespace_name            = string
     create_service_account    = bool
     service_account_name      = string
-    service_account_token_exp = optional(string)
+    service_account_token_exp = optional(string, "86400")
     roles                     = optional(list(object({
       scope     = string
       role_name = string

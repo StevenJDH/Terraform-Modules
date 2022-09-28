@@ -16,8 +16,7 @@
  */
 
 terraform {
-  required_version = ">= 1.0.0" # TODO: Change to ">= 1.30.0" once released and remove experiments.
-  experiments = [module_variable_optional_attrs]
+  required_version = ">= 1.3.0"
 
   required_providers {
     aws = {
@@ -25,15 +24,15 @@ terraform {
       version = "~> 4.0"
     }
     tls = {
-      source = "hashicorp/tls"
+      source  = "hashicorp/tls"
       version = "~> 4.0"
     }
     local = {
-      source = "hashicorp/local"
+      source  = "hashicorp/local"
       version = "~> 2.2"
     }
     null = {
-      source = "hashicorp/null"
+      source  = "hashicorp/null"
       version = "~> 3.1"
     }
   }

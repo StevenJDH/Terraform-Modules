@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 
-# TODO: When TF v1.30 is released, use optional(bool, false) for 'secure' and remove coalesce().
 variable "configuration" {
   description = "A map of configuration. Valid tiers are Standard, Advanced, and Intelligent-Tiering, but if not specified, default for region is used."
   type        = map(object({
     description = optional(string)
     value       = string
     tier        = optional(string)
-    secure      = optional(bool)
+    secure      = optional(bool, false)
   }))
 }
 

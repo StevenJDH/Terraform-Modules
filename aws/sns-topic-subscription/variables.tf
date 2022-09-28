@@ -26,12 +26,11 @@ variable "sns_topic_name" {
   type        = string
 }
 
-# TODO: When TF v1.30 is released, use optional(bool, false) for 'raw_message_delivery' and remove coalesce().
 variable "subscribing_endpoints" {
   description = "A map of configuration for endpoints that will subscribe to the SNS topic. The raw_message_delivery option is for sqs and https only."
   type        = map(object({
     protocol              = string
-    raw_message_delivery  = optional(bool)
+    raw_message_delivery  = optional(bool, false)
     filter_policy         = optional(string)
   }))
   validation {

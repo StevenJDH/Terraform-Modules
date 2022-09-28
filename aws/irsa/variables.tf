@@ -27,7 +27,7 @@ variable "irsa_application_config" {
     namespace_name            = string
     create_service_account    = bool
     service_account_name      = string
-    service_account_token_exp = optional(string)
+    service_account_token_exp = optional(string, "86400")
     policy_arns               = optional(list(string))
   }))
 

@@ -234,7 +234,7 @@ serviceAccount:
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.11 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.4 |
@@ -275,7 +275,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_deploy_irsa_test"></a> [deploy\_irsa\_test](#input\_deploy\_irsa\_test) | Deploys test resources to validate if the irsa setup is working using the AWS CLI and Credential Provider Chain. When done, make sure to set `deploy_irsa_test` to `false` to cleanup the test resources and avoid additional costs. | `bool` | `false` | no |
 | <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | Name of the EKS cluster. | `string` | n/a | yes |
-| <a name="input_irsa_application_config"></a> [irsa\_application\_config](#input\_irsa\_application\_config) | Sets the irsa application configuration, which manages irsa service accounts, roles, token expiration, etc. Default irsa service account token expiration is "86400" (1 day) unless specified differently in seconds. If the irsa service account will be created by a helm project, set `create_service_account` to `false`, and ensure the defined namespace is used. | <pre>list(object({<br>    application_name          = string<br>    namespace_name            = string<br>    create_service_account    = bool<br>    service_account_name      = string<br>    service_account_token_exp = optional(string)<br>    policy_arns               = optional(list(string))<br>  }))</pre> | `[]` | no |
+| <a name="input_irsa_application_config"></a> [irsa\_application\_config](#input\_irsa\_application\_config) | Sets the irsa application configuration, which manages irsa service accounts, roles, token expiration, etc. Default irsa service account token expiration is "86400" (1 day) unless specified differently in seconds. If the irsa service account will be created by a helm project, set `create_service_account` to `false`, and ensure the defined namespace is used. | <pre>list(object({<br>    application_name          = string<br>    namespace_name            = string<br>    create_service_account    = bool<br>    service_account_name      = string<br>    service_account_token_exp = optional(string, "86400")<br>    policy_arns               = optional(list(string))<br>  }))</pre> | `[]` | no |
 | <a name="input_oidc_issuer_url"></a> [oidc\_issuer\_url](#input\_oidc\_issuer\_url) | The OIDC issuer URL that is associated with the cluster. | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource tags. | `map(string)` | `null` | no |
 

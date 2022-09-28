@@ -70,17 +70,16 @@ variable "enable_oidc_issuer" {
   default     = false
 }
 
-# TODO: When TF v1.30 is released, use optional(type, default-value/null) for fields below using optional and remove coalesce().
 variable "default_node_pool" {
   description = "The default node pool configuration. Changes to vm_size forces a rebuild of AKS."
   type = object({
-    name                = optional(string)
+    name                = optional(string, "default")
     vm_size             = string
     vnet_subnet_id      = optional(string)
-    node_count          = optional(number)
-    enable_auto_scaling = optional(bool)
-    scaling_min_count   = optional(number)
-    scaling_max_count   = optional(number)
+    node_count          = optional(number, 1)
+    enable_auto_scaling = optional(bool, false)
+    scaling_min_count   = optional(number, 1)
+    scaling_max_count   = optional(number, 1)
   })
 
   default = {
@@ -142,18 +141,17 @@ variable "ssh_key_container_folder_prefix" {
   default     = ""
 }
 
-# TODO: When TF v1.30 is released, use optional(type, default-value/null) for fields below using optional and remove coalesce().
 variable "secondary_node_pools" {
   description = "Secondary node pool configuration. Changes to vm_size can be done without forcing a rebuild of AKS."
   type = list(object({
-    name                = optional(string)
-    node_count          = optional(number)
+    name                = optional(string, "minion")
+    node_count          = optional(number, 1)
     vm_size             = string
     vnet_subnet_id      = optional(string)
-    os_type             = optional(string)
-    enable_auto_scaling = optional(bool)
-    scaling_min_count   = optional(number)
-    scaling_max_count   = optional(number)
+    os_type             = optional(string, "Linux")
+    enable_auto_scaling = optional(bool, false)
+    scaling_min_count   = optional(number, 1)
+    scaling_max_count   = optional(number, 1)
     node_taints         = optional(list(string))
   }))
 
@@ -182,16 +180,15 @@ variable "enable_http_application_routing" {
   default     = false
 }
 
-# TODO: When TF v1.30 is released, use optional(type, default-value/null) for fields below using optional and remove coalesce().
 variable "network_profile" {
   description = "Sets up a network profile with network plugin, policy, kubernetes service address, etc. for basic and advanced networking. Changing this forces a new resource to be created. For advanced networking, AKS clusters may not use 169.254.0.0/16, 172.30.0.0/16, 172.31.0.0/16, or 192.0.2.0/24 for the Kubernetes service address range, pod address range, or cluster virtual network address range. See [Choose a network model to use](https://docs.microsoft.com/en-us/azure/aks/configure-kubenet#choose-a-network-model-to-use) for more info."
   type        = object({
     network_plugin     = string
     network_policy     = optional(string)
-    service_cidr       = optional(string)
-    dns_service_ip     = optional(string)
-    docker_bridge_cidr = optional(string)
-    outbound_type      = optional(string)
+    service_cidr       = optional(string, "10.100.0.0/16")
+    dns_service_ip     = optional(string, "10.100.0.10")
+    docker_bridge_cidr = optional(string, "172.17.0.1/16")
+    outbound_type      = optional(string, "loadBalancer")
   })
 
   default = {
