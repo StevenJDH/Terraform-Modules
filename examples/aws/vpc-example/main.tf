@@ -26,8 +26,5 @@ module "vpc-example" {
   single_public_route_table           = true
   subnet_configuration                = local.subnet_config
 
-  tags = {
-    # Similar to provider tag propagation, but module scoped.
-    type = "example"
-  }
+  tags = local.tags
 }
