@@ -4,7 +4,7 @@
 
 ```hcl
 module "s3-bucket" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/s3"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/s3?ref=main"
 
   bucket_name       = "tf-example-bucket-dev"
   add_random_suffix = true

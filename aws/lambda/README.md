@@ -14,7 +14,7 @@
 
 ```hcl
 module "simple-lambda" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/lambda"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/lambda?ref=main"
 
   s3_bucket_name   = "tf-lambda-packages"
   region           = "eu-west-3"
@@ -37,7 +37,7 @@ module "simple-lambda" {
 }
 
 module "vpc-lambda" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/lambda"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/lambda?ref=main"
 
   s3_bucket_name   = "tf-lambda-packages"
   region           = "eu-west-3"
@@ -62,7 +62,7 @@ module "vpc-lambda" {
 }
 
 module "efs-lambda" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/lambda"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/lambda?ref=main"
 
   s3_bucket_name   = "tf-lambda-packages"
   region           = "eu-west-3"

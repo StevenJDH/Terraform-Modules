@@ -30,7 +30,7 @@ resource "kubernetes_namespace_v1" "irsa-example" {
 }
 
 module "eks-irsa" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/irsa"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/irsa?ref=main"
 
   eks_cluster_name        = data.aws_eks_cluster.selected.name
   deploy_irsa_test        = true
@@ -74,7 +74,7 @@ Also, verify the following injected properties are present in the test Pod's def
 
 |         Environment variable | Description                                                                 |
 |-----------------------------:|:----------------------------------------------------------------------------|
-|  AWS_STS_REGIONAL_ENDPOINTS: | STS regional endpoint injected when `sts-regional-endpoint` is set to true. |
+|  AWS_STS_REGIONAL_ENDPOINTS: | STS regional endpoint injected when `sts-regional-endpoints` is set to true. |
 |          AWS_DEFAULT_REGION: | Specifies the AWS Region to send the request to.                            |
 |                  AWS_REGION: | The AWS SDK compatible environment variable. Overrides AWS_DEFAULT_REGION.  |
 |                AWS_ROLE_ARN: | ARN of an IAM role with a web identity provider.                            |

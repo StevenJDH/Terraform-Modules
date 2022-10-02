@@ -15,7 +15,7 @@
 
 ```hcl
 module "ingress-nginx-no-tls" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/ingress-nginx"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/ingress-nginx?ref=main"
 
   ingress_nginx_version = "4.2.5"
   deploy_ingress_test   = true
@@ -27,7 +27,7 @@ module "ingress-nginx-no-tls" {
 }
 
 module "ingress-nginx-nlb-terminated" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/ingress-nginx"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/ingress-nginx?ref=main"
 
   ingress_nginx_version      = "4.2.5"
   enable_nlb_termination     = true
@@ -43,7 +43,7 @@ module "ingress-nginx-nlb-terminated" {
 }
 
 module "ingress-nginx-terminated" {
-  source = "github.com/StevenJDH/Terraform-Modules//aws/ingress-nginx"
+  source = "github.com/StevenJDH/Terraform-Modules//aws/ingress-nginx?ref=main"
 
   ingress_nginx_version          = "4.2.5"
   cert_manager_version           = "1.9.1"

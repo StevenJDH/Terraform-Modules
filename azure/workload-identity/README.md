@@ -28,7 +28,7 @@ resource "kubernetes_namespace_v1" "azwi-example" {
 }
 
 module "workload-identity" {
-  source = "github.com/StevenJDH/Terraform-Modules//azure/workload-identity"
+  source = "github.com/StevenJDH/Terraform-Modules//azure/workload-identity?ref=main"
 
   azwi_version            = "0.13.0"
   deploy_azwi_system      = true
