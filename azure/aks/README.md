@@ -17,7 +17,7 @@ module "public_aks" {
   enable_ssh_access            = true
   save_ssh_private_key_locally = true
 
-  create_log_analytics_workspace_and_container-insights = true
+  create_log_analytics_workspace_and_container_insights = true
   log_analytics_workspace_name = "log-public-aks-example-workspace-dev"
 
   network_profile = {
@@ -51,7 +51,7 @@ module "private_aks" {
   # Ensure that the OIDC Issuer feature flag is enabled first. See details below for more info.
   enable_oidc_issuer        = true
 
-  create_log_analytics_workspace_and_container-insights = true
+  create_log_analytics_workspace_and_container_insights = true
   log_analytics_workspace_name = "log-private-aks-example-workspace-dev"
 
   network_profile = {
@@ -149,7 +149,7 @@ No modules.
 | <a name="input_attach_container_registry_id"></a> [attach\_container\_registry\_id](#input\_attach\_container\_registry\_id) | The Azure container registry id to attach to the Kubernetes Cluster with AcrPull role. | `string` | `null` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The name of the Managed Kubernetes Cluster to create. Changing this forces a new resource to be created. | `string` | n/a | yes |
 | <a name="input_cluster_sku_tier"></a> [cluster\_sku\_tier](#input\_cluster\_sku\_tier) | The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid (which includes the Uptime SLA). | `string` | `"Free"` | no |
-| <a name="input_create_log_analytics_workspace_and_container-insights"></a> [create\_log\_analytics\_workspace\_and\_container-insights](#input\_create\_log\_analytics\_workspace\_and\_container-insights) | Indicates whether or not to create a log analytics workspace with container insights enabled. | `bool` | `true` | no |
+| <a name="input_create_log_analytics_workspace_and_container_insights"></a> [create\_log\_analytics\_workspace\_and\_container\_insights](#input\_create\_log\_analytics\_workspace\_and\_container\_insights) | Indicates whether or not to create a log analytics workspace with container insights enabled. | `bool` | `true` | no |
 | <a name="input_create_resource_group"></a> [create\_resource\_group](#input\_create\_resource\_group) | Indicates whether or not to create a resource group. | `bool` | `true` | no |
 | <a name="input_default_node_pool"></a> [default\_node\_pool](#input\_default\_node\_pool) | The default node pool configuration. Changes to vm\_size forces a rebuild of AKS. | <pre>object({<br>    name                = optional(string, "default")<br>    vm_size             = string<br>    vnet_subnet_id      = optional(string)<br>    node_count          = optional(number, 1)<br>    enable_auto_scaling = optional(bool, false)<br>    scaling_min_count   = optional(number, 1)<br>    scaling_max_count   = optional(number, 1)<br>  })</pre> | <pre>{<br>  "enable_auto_scaling": false,<br>  "name": "default",<br>  "node_count": 1,<br>  "scaling_max_count": 1,<br>  "scaling_min_count": 1,<br>  "vm_size": "Standard_D2_v2",<br>  "vnet_subnet_id": null<br>}</pre> | no |
 | <a name="input_dns_prefix"></a> [dns\_prefix](#input\_dns\_prefix) | DNS prefix specified when creating the managed cluster. Changing this forces a new resource to be created. | `string` | `"aks"` | no |

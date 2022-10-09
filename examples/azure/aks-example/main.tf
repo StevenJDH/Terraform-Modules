@@ -32,7 +32,7 @@ module "public_aks" {
   enable_ssh_access            = true
   save_ssh_private_key_locally = true
 
-  create_log_analytics_workspace_and_container-insights = true
+  create_log_analytics_workspace_and_container_insights = true
   log_analytics_workspace_name = "log-public-aks-example-workspace-${local.stage}"
 
   tags = local.tags
@@ -54,7 +54,7 @@ module "private_aks" {
   # Ensure that the OIDC Issuer feature flag is enabled first. See module README.md for more info.
   enable_oidc_issuer        = true
 
-  create_log_analytics_workspace_and_container-insights = true
+  create_log_analytics_workspace_and_container_insights = true
   log_analytics_workspace_name = "log-private-aks-example-workspace-${local.stage}"
 
   tags = local.tags

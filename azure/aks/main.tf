@@ -63,7 +63,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   dynamic "oms_agent" {
-    for_each = var.create_log_analytics_workspace_and_container-insights ? [true] : []
+    for_each = var.create_log_analytics_workspace_and_container_insights ? [true] : []
 
     content {
       log_analytics_workspace_id = azurerm_log_analytics_workspace.this[0].id
@@ -145,7 +145,7 @@ resource "azurerm_storage_blob" "ssh-private-key" {
 }
 
 resource "azurerm_log_analytics_workspace" "this" {
-  count = var.create_log_analytics_workspace_and_container-insights ? 1 : 0
+  count = var.create_log_analytics_workspace_and_container_insights ? 1 : 0
 
   name                = var.log_analytics_workspace_name
   location            = var.create_resource_group ? azurerm_resource_group.this[0].location : var.location
@@ -156,7 +156,7 @@ resource "azurerm_log_analytics_workspace" "this" {
 }
 
 resource "azurerm_log_analytics_solution" "container-insights" {
-  count = var.create_log_analytics_workspace_and_container-insights ? 1 : 0
+  count = var.create_log_analytics_workspace_and_container_insights ? 1 : 0
 
   solution_name         = "ContainerInsights" # Must be same name as 'product' in plan below.
   location              = var.create_resource_group ? azurerm_resource_group.this[0].location : var.location

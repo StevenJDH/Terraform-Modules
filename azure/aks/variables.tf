@@ -207,7 +207,7 @@ variable "attach_container_registry_id" {
   default     = null
 }
 
-variable "create_log_analytics_workspace_and_container-insights" {
+variable "create_log_analytics_workspace_and_container_insights" {
   description = "Indicates whether or not to create a log analytics workspace with container insights enabled."
   type        = bool
   default     = true
