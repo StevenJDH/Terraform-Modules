@@ -15,12 +15,6 @@
  * limitations under the License.
  */
 
-variable "region" {
-  description = "AWS region."
-  type        = string
-  default     = "eu-west-3"
-}
-
 variable "api_name" {
   description = "Name of the API Gateway REST API. This corresponds to the `info.title` field, and if the argument value is different than the OpenAPI value, the argument value will override the OpenAPI value."
   type        = string

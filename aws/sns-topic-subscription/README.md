@@ -51,7 +51,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_region"></a> [region](#input\_region) | AWS region. | `string` | `"eu-west-3"` | no |
 | <a name="input_sns_topic_name"></a> [sns\_topic\_name](#input\_sns\_topic\_name) | Name of the SNS topic to subscribe to. | `string` | n/a | yes |
 | <a name="input_subscribing_endpoints"></a> [subscribing\_endpoints](#input\_subscribing\_endpoints) | A map of configuration for endpoints that will subscribe to the SNS topic. The raw\_message\_delivery option is for sqs and https only. | <pre>map(object({<br>    protocol              = string<br>    raw_message_delivery  = optional(bool, false)<br>    filter_policy         = optional(string)<br>  }))</pre> | n/a | yes |
 

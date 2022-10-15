@@ -15,12 +15,6 @@
  * limitations under the License.
  */
 
-variable "region" {
-  description = "AWS region."
-  type        = string
-  default     = "eu-west-3"
-}
-
 variable "sns_topic_name" {
   description = "Name of the SNS topic to subscribe to."
   type        = string
