@@ -8,6 +8,7 @@
 * Support for defining a custom domain name for an API.
 * Optionally use free, recognized certificates signed by Amazon with auto verification to enable HTTPS for custom domains.
 * Optionally create Lambda resource-based policy statements to allow API Gateway to access a Lambda function.
+* Automatically restrict private APIs to VPC Endpoints as a security best practice.
 * Optionally capture and store logs, metrics, and request/response messages to CloudWatch.
 
 ## Usage
@@ -131,6 +132,7 @@ No modules.
 | [aws_api_gateway_domain_name.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_domain_name) | resource |
 | [aws_api_gateway_method_settings.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method_settings) | resource |
 | [aws_api_gateway_rest_api.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_rest_api) | resource |
+| [aws_api_gateway_rest_api_policy.vpce-restricted](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_rest_api_policy) | resource |
 | [aws_api_gateway_stage.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_stage) | resource |
 | [aws_cloudwatch_log_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_iam_role.api-gateway-cloudwatch](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
@@ -146,7 +148,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_api_name"></a> [api\_name](#input\_api\_name) | Name of the API Gateway REST API. This corresponds to the `info.title` field, and if the argument value is different than the OpenAPI value, the argument value will override the OpenAPI value. | `string` | n/a | yes |
 | <a name="input_api_root_domain_name"></a> [api\_root\_domain\_name](#input\_api\_root\_domain\_name) | The root (apex) domain name for the API, for example, `domain.com`. See `api_subdomain_name` to set a custom subdomain. | `string` | `null` | no |
-| <a name="input_api_specification"></a> [api\_specification](#input\_api\_specification) | OpenAPI specification that defines the set of routes and integrations to create as part of the REST API. Use `API` > `Stages` > `Export` > `OpenAPI 3 + API Gateway Extensions` JSON format, and remove `servers` block. | `string` | n/a | yes |
+| <a name="input_api_specification"></a> [api\_specification](#input\_api\_specification) | OpenAPI specification that defines the set of routes and integrations to create as part of the REST API. Use `API` > `Stages` > `Export` > `OpenAPI 3 + API Gateway Extensions` JSON format, and remove the `servers` and `x-amazon-apigateway-policy` blocks if present. | `string` | n/a | yes |
 | <a name="input_api_subdomain_name"></a> [api\_subdomain\_name](#input\_api\_subdomain\_name) | The subdomain name for the API, for example, `api`. See `api_root_domain_name` to set a custom root domain. | `string` | `"api"` | no |
 | <a name="input_cloudwatch_log_retention_in_days"></a> [cloudwatch\_log\_retention\_in\_days](#input\_cloudwatch\_log\_retention\_in\_days) | Specifies the number of days you want to retain log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653, and 0. If you select 0, the events in the log group are always retained and never expire. | `number` | `90` | no |
 | <a name="input_cloudwatch_logging_level"></a> [cloudwatch\_logging\_level](#input\_cloudwatch\_logging\_level) | Logging level for method, which effects the log entries pushed to Amazon CloudWatch Logs. The available levels are OFF, ERROR, and INFO. Prefer ERROR over INFO as a recommendation to save cost. | `string` | `"OFF"` | no |

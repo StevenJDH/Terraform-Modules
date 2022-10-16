@@ -124,3 +124,32 @@ resource "aws_lambda_permission" "this" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_stage.this.execution_arn}/*/*"
 }
+
+resource "aws_api_gateway_rest_api_policy" "vpce-restricted" {
+  count = var.endpoint_type == "PRIVATE" ? 1 : 0
+
+  rest_api_id = aws_api_gateway_rest_api.this.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "execute-api:Invoke"
+        Principal = "*"
+        Resource = "${aws_api_gateway_rest_api.this.execution_arn}/*"
+      },
+      {
+        Effect = "Deny"
+        Action = "execute-api:Invoke"
+        Principal = "*"
+        Resource = "${aws_api_gateway_rest_api.this.execution_arn}/*"
+        Condition = {
+          StringNotEquals = {
+            "aws:SourceVpce" = var.vpc_endpoint_ids
+          }
+        }
+      },
+    ]
+  })
+}

@@ -21,7 +21,7 @@ variable "api_name" {
 }
 
 variable "api_specification" {
-  description = "OpenAPI specification that defines the set of routes and integrations to create as part of the REST API. Use `API` > `Stages` > `Export` > `OpenAPI 3 + API Gateway Extensions` JSON format, and remove `servers` block."
+  description = "OpenAPI specification that defines the set of routes and integrations to create as part of the REST API. Use `API` > `Stages` > `Export` > `OpenAPI 3 + API Gateway Extensions` JSON format, and remove the `servers` and `x-amazon-apigateway-policy` blocks if present."
   type        = string
 }
 
