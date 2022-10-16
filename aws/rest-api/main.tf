@@ -44,7 +44,7 @@ resource "aws_api_gateway_deployment" "this" {
 # defaults, destroying this resource will keep your account settings intact.
 # Will also create a "/aws/apigateway/welcome" log group that can be deleted.
 resource "aws_api_gateway_account" "this" {
-  cloudwatch_role_arn = aws_iam_role.api-gateway-cloudwatch.arn
+  cloudwatch_role_arn = local.cloudwatch_role_arn
 }
 
 resource "aws_api_gateway_stage" "this" {
@@ -85,8 +85,10 @@ resource "aws_cloudwatch_log_group" "this" {
 }
 
 resource "aws_iam_role" "api-gateway-cloudwatch" {
-  name        = "apigw-cloudwatch-role-${var.api_name}"
-  description = "AWS API Gateway - CloudWatch role."
+  count = var.cloudwatch_role_arn_for_api_gateway == null ? 1 : 0
+
+  name        = "api-gateway-cloudwatch-account-role"
+  description = "AWS API Gateway - CloudWatch account level role."
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -106,9 +108,11 @@ resource "aws_iam_role" "api-gateway-cloudwatch" {
 }
 
 resource "aws_iam_role_policy_attachment" "api-gateway-push-to-cloudwatch-logs" {
+  count = var.cloudwatch_role_arn_for_api_gateway == null ? 1 : 0
+
   # Allows API Gateway to push logs to user's account.
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
-  role       = aws_iam_role.api-gateway-cloudwatch.name
+  role       = aws_iam_role.api-gateway-cloudwatch[0].name
 }
 
 resource "aws_lambda_permission" "this" {

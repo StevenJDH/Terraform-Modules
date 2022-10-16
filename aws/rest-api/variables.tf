@@ -52,6 +52,12 @@ variable "stage_variables" {
   default     = null
 }
 
+variable "cloudwatch_role_arn_for_api_gateway" {
+  description = "ARN of an existing IAM role for CloudWatch to allow logging & monitoring in API Gateway. This is an account level setting, so either specify an existing ARN, or a new role will be created and used."
+  type        = string
+  default     = null
+}
+
 variable "cloudwatch_logging_level" {
   description = "Logging level for method, which effects the log entries pushed to Amazon CloudWatch Logs. The available levels are OFF, ERROR, and INFO. Prefer ERROR over INFO as a recommendation to save cost."
   type        = string

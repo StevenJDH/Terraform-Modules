@@ -16,6 +16,7 @@
  */
 
 locals {
+  cloudwatch_role_arn      = var.cloudwatch_role_arn_for_api_gateway == null ? aws_iam_role.api-gateway-cloudwatch[0].arn : var.cloudwatch_role_arn_for_api_gateway
   enable_acm_custom_domain = var.enable_acm_custom_domain && (var.endpoint_type == "REGIONAL" || var.endpoint_type == "EDGE")
   api_custom_fqdn          = local.enable_acm_custom_domain ? "${var.api_subdomain_name}.${var.api_root_domain_name}" : null
 
