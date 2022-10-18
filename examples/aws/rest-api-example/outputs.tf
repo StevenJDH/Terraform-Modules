@@ -89,3 +89,53 @@ output "custom_domain_curl_custom_domain_url" {
 output "custom_domain_curl_stage_invoke_url" {
   value = module.custom-domain-rest-api.curl_stage_invoke_url
 }
+
+output "lambda_proxy_rest_api_arn" {
+  value = module.lambda-proxy-rest-api.rest_api_arn
+}
+
+output "lambda_proxy_rest_api_id" {
+  value = module.lambda-proxy-rest-api.rest_api_id
+}
+
+output "lambda_proxy_execution_arn_for_lambda" {
+  value = module.lambda-proxy-rest-api.execution_arn_for_lambda
+}
+
+output "lambda_proxy_cloudwatch_log_group_info" {
+  value = module.lambda-proxy-rest-api.cloudwatch_log_group_info
+}
+
+output "lambda_proxy_curl_custom_domain_url" {
+  # May take a minute to become available on initial deploy.
+  value = module.lambda-proxy-rest-api.curl_custom_domain_url
+}
+
+output "lambda_proxy_curl_stage_invoke_url" {
+  value = module.lambda-proxy-rest-api.curl_stage_invoke_url
+}
+
+output "lambda_integration_rest_api_arn" {
+  value = module.lambda-integration-rest-api.rest_api_arn
+}
+
+output "lambda_integration_rest_api_id" {
+  value = module.lambda-integration-rest-api.rest_api_id
+}
+
+output "lambda_integration_execution_arn_for_lambda" {
+  value = module.lambda-integration-rest-api.execution_arn_for_lambda
+}
+
+output "lambda_integration_cloudwatch_log_group_info" {
+  value = module.lambda-integration-rest-api.cloudwatch_log_group_info
+}
+
+output "lambda_integration_curl_custom_domain_url" {
+  # May take a minute to become available on initial deploy.
+  value = module.lambda-integration-rest-api.curl_custom_domain_url
+}
+
+output "lambda_integration_curl_stage_invoke_url" {
+  value = module.lambda-integration-rest-api.curl_stage_invoke_url
+}

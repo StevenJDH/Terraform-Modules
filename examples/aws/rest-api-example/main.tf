@@ -69,3 +69,39 @@ module "custom-domain-rest-api" {
 
   tags = local.tags
 }
+
+module "lambda-proxy-rest-api" {
+  source = "../../../aws/rest-api"
+
+  api_name             = "lambda-proxy-api-example-${local.stage}"
+  endpoint_type        = "REGIONAL"
+  stage_name           = local.stage
+  stage_variables      = local.lambda_stage_variables
+  api_specification    = local.lambda_proxy_api_spec
+  lambda_function_name = local.lambda_stage_variables.lambda_name
+
+  cloudwatch_logging_level            = "ERROR"
+  enable_cloudwatch_metrics           = true
+  enable_request_and_response_logging = true
+  cloudwatch_log_retention_in_days    = 7
+
+  tags = local.tags
+}
+
+module "lambda-integration-rest-api" {
+  source = "../../../aws/rest-api"
+
+  api_name             = "lambda-integration-api-example-${local.stage}"
+  endpoint_type        = "REGIONAL"
+  stage_name           = local.stage
+  stage_variables      = local.lambda_stage_variables
+  api_specification    = local.lambda_integration_api_spec
+  lambda_function_name = local.lambda_stage_variables.lambda_name
+
+  cloudwatch_logging_level            = "ERROR"
+  enable_cloudwatch_metrics           = true
+  enable_request_and_response_logging = true
+  cloudwatch_log_retention_in_days    = 7
+
+  tags = local.tags
+}

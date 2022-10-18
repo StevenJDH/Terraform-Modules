@@ -19,3 +19,5 @@ data "aws_vpc_endpoint" "selected" {
   vpc_id       = var.vpc_id
   service_name = "com.amazonaws.${var.region}.execute-api"
 }
+
+data "aws_caller_identity" "current" {}

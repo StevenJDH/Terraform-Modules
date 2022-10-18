@@ -4,6 +4,7 @@
 
 * Create Public, Private, and Edge Optimized REST APIs using OpenAPI 3 Specifications. For more information, see [REST APIs vs HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html).
 * Support for OpenAPI 3 + API Gateway Extensions to apply more API Gateway specific configurations.
+* Support for Apache Velocity Template Language (VTL) to define mapping and transformation templates.
 * Create stage variables to avoid hard-coding information as a best practice.
 * Support for defining a custom domain name for an API.
 * Optionally use free, recognized certificates signed by Amazon with auto verification to enable HTTPS for custom domains.
@@ -14,6 +15,10 @@
 ## Usage
 
 ```hcl
+#############################################################
+## See example project for additional examples with Lambda ##
+#############################################################
+
 locals {
   api_spec = jsonencode({
     openapi = "3.0.1"
