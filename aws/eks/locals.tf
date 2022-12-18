@@ -49,5 +49,5 @@ locals {
 
   fargate_worker_nodes_subnet_ids = [for idx in local.fargate_worker_nodes_subnet_indexes : element(local.subnet_ids, idx)]
   fargate_namespaces              = var.enable_fargate_only ? setunion(var.fargate_namespaces, ["kube-system", "default"]) : var.fargate_namespaces
-  apply_fargate_coredns_patch     = !var.enable_fargate_only && length(var.eks_node_group_config) > 0 && contains(keys(local.eks_cluster_addons), "coredns") && contains(local.fargate_namespaces, "kube-system")
+  apply_fargate_coredns_patch     = contains(keys(local.eks_cluster_addons), "coredns") && contains(local.fargate_namespaces, "kube-system")
 }
