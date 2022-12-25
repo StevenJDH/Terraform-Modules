@@ -57,6 +57,35 @@ Events:
   Warning  LoggingDisabled  <unknown>  fargate-scheduler  
 ```
 
+Finally, the below is a sample log entry from an NGINX test pod that has been enriched with Kubernetes metadata:
+
+```json
+{
+    "stream": "stdout",
+    "logtag": "F",
+    "log": "/docker-entrypoint.sh: Configuration complete; ready for start up",
+    "kubernetes": {
+        "pod_name": "test",
+        "namespace_name": "default",
+        "pod_id": "db9e92f1-c4a5-4fb6-a22f-c1c1b9fa5791",
+        "labels": {
+            "eks.amazonaws.com/fargate-profile": "fargate-profile-default",
+            "run": "test"
+        },
+        "annotations": {
+            "CapacityProvisioned": "0.25vCPU 0.5GB",
+            "Logging": "LoggingEnabled",
+            "kubernetes.io/psp": "eks.privileged"
+        },
+        "host": "fargate-ip-10-0-2-175.eu-west-3.compute.internal",
+        "container_name": "test",
+        "docker_id": "62f145ede40f3e837263b510408ad1fdc686465de5c671fe3c260b44754e4348",
+        "container_hash": "docker.io/library/nginx@sha256:af447bf7a691a0d24441a7cd16a794f9443d958f956dbd73ba4c078f2873beb1",
+        "container_image": "docker.io/library/nginx:latest"
+    }
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
