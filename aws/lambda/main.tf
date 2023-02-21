@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ resource "aws_lambda_function" "this" {
   s3_bucket                      = var.s3_bucket_name
   s3_key                         = var.lambda_functions[count.index].deployment_package_key == null ? "${var.lambda_functions[count.index].function_name}.zip" : var.lambda_functions[count.index].deployment_package_key
   s3_object_version              = var.lambda_functions[count.index].s3_zip_object_version
-  source_code_hash               = data.aws_s3_object.lambda-package-hash[count.index].body
+  source_code_hash               = trimspace(data.aws_s3_object.lambda-package-hash[count.index].body)
   memory_size                    = var.lambda_functions[count.index].memory_size_in_mb
   reserved_concurrent_executions = var.lambda_functions[count.index].reserved_concurrency
 
@@ -107,7 +107,7 @@ resource "aws_cloudwatch_log_group" "this" {
 resource "aws_iam_policy" "cloud-watch-log-group" {
   count = length(var.lambda_functions)
 
-  name        = "AWSLambdaBasicExecutionRole-CWL"
+  name        = "AWSLambdaBasicExecutionRole-CWL-${random_id.this[count.index].hex}"
   path        = "/"
   description = "Provides write permissions to CloudWatch Logs."
 

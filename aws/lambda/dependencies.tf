@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ data "aws_s3_object" "lambda-package-hash" {
   count = length(var.lambda_functions)
 
   bucket     = var.s3_bucket_name
-  key        = var.lambda_functions[count.index].deployment_package_key == null ? "${var.lambda_functions[count.index].function_name}.zip.base64sha256" : "${var.lambda_functions[count.index].deployment_package_key}.base64sha256"
+  # The content of an object (body field) is available only for objects which have a human-readable 
+  # Content-Type (text/* and application/json). AWS will infer this based on the *.txt extension.
+  key        = var.lambda_functions[count.index].deployment_package_key == null ? "${var.lambda_functions[count.index].function_name}.zip.base64sha256.txt" : "${var.lambda_functions[count.index].deployment_package_key}.base64sha256.txt"
   version_id = var.lambda_functions[count.index].s3_hash_object_version
 }

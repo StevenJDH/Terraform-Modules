@@ -98,14 +98,14 @@ To create a deployment package for a function, zip the file or files needed for 
 **Bash** (Windows users can use git bash)
 ```bash
 package=app-0.1.0-aws.zip
-openssl dgst -sha256 -binary $package | openssl enc -base64 > $package.base64sha256
+openssl dgst -sha256 -binary $package | openssl enc -base64 > $package.base64sha256.txt
 ```
 
 **Windows Command Prompt**
 
 ```batch
 set package=app-0.1.0-aws.zip
-openssl dgst -sha256 -binary %package% | openssl enc -base64 > %package%.base64sha256
+openssl dgst -sha256 -binary %package% | openssl enc -base64 > %package%.base64sha256.txt
 ```
 
 Finally, upload the archive and the hash file to a centralized S3 bucket to make it ready for deployment. If versioning is enabled, setting `s3_zip_object_version` and `s3_hash_object_version` with the versioning IDs for the file pairs will enable rollbacks as needed.
