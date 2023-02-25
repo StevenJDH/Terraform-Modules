@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,19 +22,19 @@ resource "aws_sns_topic" "this" {
   fifo_topic                  = var.fifo_topic
   content_based_deduplication = var.fifo_topic ? var.content_based_deduplication : null
   delivery_policy             = jsonencode({
-    "http": {
-      "defaultHealthyRetryPolicy": {
-        "minDelayTarget": var.min_delay_target_seconds,
-        "maxDelayTarget": var.max_delay_target_seconds,
-        "numRetries": var.num_retries,
-        "numMaxDelayRetries": var.num_max_delay_retries,
-        "numNoDelayRetries": var.num_no_delay_retries,
-        "numMinDelayRetries": var.num_min_delay_retries,
-        "backoffFunction": var.backoff_function
-      },
-      "disableSubscriptionOverrides": false,
-      "defaultThrottlePolicy": {
-        "maxReceivesPerSecond": var.max_receives_per_second
+    http = {
+      defaultHealthyRetryPolicy = {
+        minDelayTarget     = var.min_delay_target_seconds
+        maxDelayTarget     = var.max_delay_target_seconds
+        numRetries         = var.num_retries
+        numMaxDelayRetries = var.num_max_delay_retries
+        numNoDelayRetries  = var.num_no_delay_retries
+        numMinDelayRetries = var.num_min_delay_retries
+        backoffFunction    = var.backoff_function
+      }
+      disableSubscriptionOverrides = false
+      defaultThrottlePolicy = {
+        maxReceivesPerSecond = var.max_receives_per_second
       }
     }
   })
