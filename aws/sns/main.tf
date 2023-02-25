@@ -21,23 +21,29 @@ resource "aws_sns_topic" "this" {
   name                        = var.fifo_topic ? "${var.topic_names[count.index]}.fifo" : var.topic_names[count.index]
   fifo_topic                  = var.fifo_topic
   content_based_deduplication = var.fifo_topic ? var.content_based_deduplication : null
-  delivery_policy             = jsonencode({
-    http = {
-      defaultHealthyRetryPolicy = {
-        minDelayTarget     = var.min_delay_target_seconds
-        maxDelayTarget     = var.max_delay_target_seconds
-        numRetries         = var.num_retries
-        numMaxDelayRetries = var.num_max_delay_retries
-        numNoDelayRetries  = var.num_no_delay_retries
-        numMinDelayRetries = var.num_min_delay_retries
-        backoffFunction    = var.backoff_function
+
+  # Using an indented heredoc string to avoid maxReceivesPerSecond always appearing in plan if null.
+  delivery_policy = <<-EOT
+  {
+    "http": {
+      "defaultHealthyRetryPolicy": {
+        "minDelayTarget": ${var.min_delay_target_seconds},
+        "maxDelayTarget": ${var.max_delay_target_seconds},
+        "numRetries": ${var.num_retries},
+        "numMaxDelayRetries": ${var.num_max_delay_retries},
+        "numNoDelayRetries": ${var.num_no_delay_retries},
+        "numMinDelayRetries": ${var.num_min_delay_retries},
+        "backoffFunction": "${var.backoff_function}"
+      },
+      "disableSubscriptionOverrides": false
+      %{~ if var.max_receives_per_second != null ~},
+      "defaultThrottlePolicy": {
+        "maxReceivesPerSecond": ${var.max_receives_per_second}
       }
-      disableSubscriptionOverrides = false
-      defaultThrottlePolicy = {
-        maxReceivesPerSecond = var.max_receives_per_second
-      }
+      %{~ endif ~}
     }
-  })
+  }
+  EOT
 
   tags = var.tags
 }
