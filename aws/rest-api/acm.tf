@@ -33,7 +33,7 @@ resource "aws_acm_certificate" "this" {
 resource "aws_route53_record" "validation" {
   for_each = local.domain_validation_options
 
-  zone_id         = data.aws_route53_zone.public-zone[0].zone_id
+  zone_id         = var.hosted_zone_id
   name            = each.value.name
   type            = each.value.type
   records         = [each.value.record]
@@ -74,7 +74,7 @@ resource "aws_api_gateway_base_path_mapping" "this" {
 resource "aws_route53_record" "this" {
   count = local.enable_acm_custom_domain ? 1 : 0
 
-  zone_id = data.aws_route53_zone.public-zone[0].zone_id
+  zone_id = var.hosted_zone_id
   name    = aws_api_gateway_domain_name.this[0].domain_name
   type    = "A"
 

@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,3 +21,8 @@ data "aws_vpc_endpoint" "selected" {
 }
 
 data "aws_caller_identity" "current" {}
+
+data "aws_route53_zone" "public-zone" {
+  name         = local.custom_domain
+  private_zone = false
+}

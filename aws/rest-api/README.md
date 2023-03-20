@@ -91,6 +91,7 @@ module "custom-domain-rest-api" {
   stage_name               = "dev"
   stage_variables          = { url = "ip-ranges.amazonaws.com/ip-ranges.json" }
   enable_acm_custom_domain = true
+  hosted_zone_id           = "ABCDEFGHIJK1234567890"
   api_root_domain_name     = "domain.com"
   api_subdomain_name       = "api-dev"
   api_specification        = local.api_spec
@@ -146,7 +147,6 @@ No modules.
 | [aws_lambda_permission.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_route53_record.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.validation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_zone.public-zone](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 
 ## Inputs
 
@@ -164,6 +164,7 @@ No modules.
 | <a name="input_enable_cloudwatch_metrics"></a> [enable\_cloudwatch\_metrics](#input\_enable\_cloudwatch\_metrics) | Indicates whether or not to enable CloudWatch Metrics. | `bool` | `false` | no |
 | <a name="input_enable_request_and_response_logging"></a> [enable\_request\_and\_response\_logging](#input\_enable\_request\_and\_response\_logging) | Indicates whether or not to log full request/response data. | `bool` | `false` | no |
 | <a name="input_endpoint_type"></a> [endpoint\_type](#input\_endpoint\_type) | Type of endpoint to use for the API. Valid values are EDGE, REGIONAL and PRIVATE. | `string` | `"REGIONAL"` | no |
+| <a name="input_hosted_zone_id"></a> [hosted\_zone\_id](#input\_hosted\_zone\_id) | The identifier of the hosted zone to use for storing DNS records. Private hosted zones are not supported. | `string` | `null` | no |
 | <a name="input_lambda_function_name"></a> [lambda\_function\_name](#input\_lambda\_function\_name) | Name of a Lambda function where an additional resource-based policy statement will be added with access permissions for API Gateway. The permissions will allow invocations from any method and resource path for a specific stage within the API Gateway REST API. If more restrictive permissions are needed, then use instead the `execution_arn_for_lambda` output along with a `aws_lambda_permission` resource. | `string` | `null` | no |
 | <a name="input_stage_name"></a> [stage\_name](#input\_stage\_name) | Name of the stage. | `string` | n/a | yes |
 | <a name="input_stage_variables"></a> [stage\_variables](#input\_stage\_variables) | A map that defines the stage variables to avoid hard-coding information. For more information, see [Setting up stage variables for a REST API deployment](https://docs.aws.amazon.com/apigateway/latest/developerguide/stage-variables.html). | `map(string)` | `null` | no |

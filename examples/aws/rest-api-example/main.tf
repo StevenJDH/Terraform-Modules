@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,8 @@ module "custom-domain-rest-api" {
   stage_name               = local.stage
   stage_variables          = local.stage_variables
   enable_acm_custom_domain = true
-  api_root_domain_name     = "domain.com"
+  hosted_zone_id           = data.aws_route53_zone.public-zone.id
+  api_root_domain_name     = local.custom_domain
   api_subdomain_name       = "api-${local.stage}"
   api_specification        = local.api_spec
 

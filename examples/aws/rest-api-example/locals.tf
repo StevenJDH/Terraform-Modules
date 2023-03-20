@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,9 @@
  */
 
 locals {
-  stage       = "dev"
-  aws_profile = "default"
+  stage         = "dev"
+  aws_profile   = "default"
+  custom_domain = "domain.com"
 
   stage_variables = {
     url = "ip-ranges.amazonaws.com/ip-ranges.json"
@@ -115,7 +116,7 @@ locals {
               # This is necessary because input to a Lambda function must be expressed in the body.
               "application/json" = "{\"person\":\"$input.params('person')\"}"
             }
-            responses : {
+            responses = {
               default = {
                 statusCode = "200"
                 responseTemplates = {

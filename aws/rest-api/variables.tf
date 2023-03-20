@@ -108,6 +108,12 @@ variable "enable_acm_custom_domain" {
   default     = false
 }
 
+variable "hosted_zone_id" {
+  description = "The identifier of the hosted zone to use for storing DNS records. Private hosted zones are not supported."
+  type        = string
+  default     = null
+}
+
 variable "api_root_domain_name" {
   description = "The root (apex) domain name for the API, for example, `domain.com`. See `api_subdomain_name` to set a custom subdomain."
   type        = string
