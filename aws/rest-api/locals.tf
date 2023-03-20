@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ locals {
   cloudwatch_role_arn      = var.cloudwatch_role_arn_for_api_gateway == null ? aws_iam_role.api-gateway-cloudwatch[0].arn : var.cloudwatch_role_arn_for_api_gateway
   enable_acm_custom_domain = var.enable_acm_custom_domain && (var.endpoint_type == "REGIONAL" || var.endpoint_type == "EDGE")
   api_custom_fqdn          = local.enable_acm_custom_domain ? "${var.api_subdomain_name}.${var.api_root_domain_name}" : null
+  api_domain_subdirectory  = var.api_domain_subdirectory != null ? "/${var.api_domain_subdirectory}" : ""
 
   domain_validation_options = !local.enable_acm_custom_domain ? {} : tomap({
     for dvo in aws_acm_certificate.this[0].domain_validation_options : dvo.domain_name => {

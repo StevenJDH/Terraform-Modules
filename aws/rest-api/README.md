@@ -6,7 +6,7 @@
 * Support for OpenAPI 3 + API Gateway Extensions to apply more API Gateway specific configurations.
 * Support for Apache Velocity Template Language (VTL) to define mapping and transformation templates.
 * Create stage variables to avoid hard-coding information as a best practice.
-* Support for defining a custom domain name for an API.
+* Support for defining a custom domain name for one or more API backends.
 * Optionally use free, recognized certificates signed by Amazon with auto verification to enable HTTPS for custom domains.
 * Optionally create Lambda resource-based policy statements to allow API Gateway to access a Lambda function.
 * Automatically restrict private APIs to VPC Endpoints as a security best practice.
@@ -133,6 +133,7 @@ No modules.
 | [aws_acm_certificate_validation.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate_validation) | resource |
 | [aws_api_gateway_account.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_account) | resource |
 | [aws_api_gateway_base_path_mapping.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_base_path_mapping) | resource |
+| [aws_api_gateway_deployment.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_deployment) | resource |
 | [aws_api_gateway_deployment.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_deployment) | resource |
 | [aws_api_gateway_domain_name.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_domain_name) | resource |
 | [aws_api_gateway_method_settings.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method_settings) | resource |
@@ -151,6 +152,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_api_domain_subdirectory"></a> [api\_domain\_subdirectory](#input\_api\_domain\_subdirectory) | The subdirectory that comes after the `api_root_domain_name`, for example, `myservice`. Slashes are not supported. | `string` | `null` | no |
 | <a name="input_api_name"></a> [api\_name](#input\_api\_name) | Name of the API Gateway REST API. This corresponds to the `info.title` field, and if the argument value is different than the OpenAPI value, the argument value will override the OpenAPI value. | `string` | n/a | yes |
 | <a name="input_api_root_domain_name"></a> [api\_root\_domain\_name](#input\_api\_root\_domain\_name) | The root (apex) domain name for the API, for example, `domain.com`. See `api_subdomain_name` to set a custom subdomain. | `string` | `null` | no |
 | <a name="input_api_specification"></a> [api\_specification](#input\_api\_specification) | OpenAPI specification that defines the set of routes and integrations to create as part of the REST API. Use `API` > `Stages` > `Export` > `OpenAPI 3 + API Gateway Extensions` JSON format, and remove the `servers` and `x-amazon-apigateway-policy` blocks if present. | `string` | n/a | yes |

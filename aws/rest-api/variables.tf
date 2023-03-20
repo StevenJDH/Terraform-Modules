@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -110,6 +110,12 @@ variable "enable_acm_custom_domain" {
 
 variable "api_root_domain_name" {
   description = "The root (apex) domain name for the API, for example, `domain.com`. See `api_subdomain_name` to set a custom subdomain."
+  type        = string
+  default     = null
+}
+
+variable "api_domain_subdirectory" {
+  description = "The subdirectory that comes after the `api_root_domain_name`, for example, `myservice`. Slashes are not supported."
   type        = string
   default     = null
 }

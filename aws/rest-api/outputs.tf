@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ output "cloudwatch_log_group_info" {
 
 output "curl_custom_domain_url" {
   # May take a minute to become available on initial deploy.
-  value = try("curl https://${local.api_custom_fqdn}/<resource-path>", null)
+  value = try("curl https://${local.api_custom_fqdn}${local.api_domain_subdirectory}/<resource-path>", null)
 }
 
 output "curl_stage_invoke_url" {
