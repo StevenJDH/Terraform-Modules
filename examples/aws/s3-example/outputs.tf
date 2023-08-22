@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,4 +21,8 @@ output "id" {
 
 output "arn" {
   value = module.s3-bucket.arn
+}
+
+output "hosted_zone_id" {
+  value = module.s3-bucket.hosted_zone_id
 }

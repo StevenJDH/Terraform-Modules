@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,28 @@ resource "aws_s3_bucket" "this" {
   tags = var.tags
 }
 
+# Starting in April 2023, Amazon S3 has introduced two new default bucket
+# security settings by automatically enabling S3 Block Public Access and
+# disabling S3 access control lists (ACLs) for all new S3 buckets.
+# References:
+# https://aws.amazon.com/about-aws/whats-new/2022/12/amazon-s3-automatically-enable-block-public-access-disable-access-control-lists-buckets-april-2023/
+# https://github.com/hashicorp/terraform-provider-aws/issues/28353
 resource "aws_s3_bucket_acl" "this" {
   bucket = aws_s3_bucket.this.id
   acl    = "private"
+
+  depends_on = [
+    aws_s3_bucket_ownership_controls.this,
+    aws_s3_bucket_public_access_block.this,
+  ]
+}
+
+# Trick used for aws_s3_bucket_acl.this resource.
+resource "aws_s3_bucket_ownership_controls" "this" {
+  bucket = aws_s3_bucket.this.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
@@ -45,7 +64,7 @@ resource "aws_s3_bucket_policy" "this" {
 
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = concat([
+    Statement = concat(var.block_public_policy == false && var.restrict_public_buckets == false && length(var.additional_resource_policy_statements) > 0 ? [] : [
       {
         Sid       = "S3EnforceHTTPSOnly"
         Effect    = "Deny"
@@ -63,6 +82,9 @@ resource "aws_s3_bucket_policy" "this" {
       },
     ], var.additional_resource_policy_statements)
   })
+
+  # Needed to avoid a 403 error.
+  depends_on = [aws_s3_bucket_public_access_block.this]
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "aes256" {
@@ -116,9 +138,22 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
       }
 
       dynamic "filter" {
-        for_each = rule.value.filter != null ? [true] : []
+        for_each = rule.value.filter_prefix != null && rule.value.filter_prefix != "" && rule.value.filter_tags == null && rule.value.filter_size_lt_bytes == null && rule.value.filter_size_gt_bytes == null ? [true] : []
         content {
-          prefix = rule.value.filter
+          prefix = rule.value.filter_prefix
+        }
+      }
+
+      # AWS doesn't allow using the below when only prefix is provided, but for the others it does.
+      dynamic "filter" {
+        for_each = rule.value.filter_tags != null || rule.value.filter_size_lt_bytes != null || rule.value.filter_size_gt_bytes != null ? [true] : []
+        content {
+          and {
+            prefix                   = rule.value.filter_prefix != null ? rule.value.filter_prefix : ""
+            object_size_less_than    = rule.value.filter_size_lt_bytes
+            object_size_greater_than = rule.value.filter_size_gt_bytes
+            tags                     = rule.value.filter_tags
+          }
         }
       }
 

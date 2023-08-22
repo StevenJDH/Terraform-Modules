@@ -1,6 +1,6 @@
 /*
  * This file is part of Terraform-Modules <https://github.com/StevenJDH/Terraform-Modules>.
- * Copyright (C) 2022 Steven Jenkins De Haro.
+ * Copyright (C) 2022-2023 Steven Jenkins De Haro.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,10 @@ variable "lifecycle_rules" {
   type = list(object({
     rule_name               = string
     enable_rule             = bool
-    filter                  = optional(string)
+    filter_prefix           = optional(string, "") # TF needed default.
+    filter_tags             = optional(map(string), null) # TF needed default.
+    filter_size_lt_bytes    = optional(number, null) # TF needed default.
+    filter_size_gt_bytes    = optional(number, null) # TF needed default.
     expiration_days         = optional(number, 0)
     transition              = optional(list(object({
       days          = number
@@ -84,7 +87,10 @@ variable "lifecycle_rules" {
     {
       rule_name               = "Housekeeping"
       enable_rule             = true
-      filter                  = null
+      filter_prefix           = ""
+      filter_tags             = null
+      filter_size_lt_bytes    = null
+      filter_size_gt_bytes    = null
       expiration_days         = 0
       transition              = []
       version_expiration_days = 30
