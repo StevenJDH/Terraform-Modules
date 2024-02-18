@@ -89,11 +89,6 @@ resource "kubernetes_service_account_v1" "this" {
     name      = each.value.service_account_name
     namespace = each.value.namespace_name
 
-    labels = {
-      # Represents that this service account is to be used for workload identity.
-      "azure.workload.identity/use" = "true"
-    }
-
     annotations = {
       "azure.workload.identity/client-id"                        = azuread_application.this[each.key].application_id
       "azure.workload.identity/service-account-token-expiration" = each.value.service_account_token_exp

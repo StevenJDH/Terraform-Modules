@@ -24,7 +24,7 @@ resource "kubernetes_namespace_v1" "azwi-example" {
 module "workload-identity" {
   source = "../../../azure/workload-identity"
 
-  azwi_version            = "0.13.0"
+  azwi_version            = "1.2.0"
   deploy_azwi_system      = true
   deploy_azwi_test        = true
   azwi_test_location      = var.location

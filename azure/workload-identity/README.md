@@ -30,7 +30,7 @@ resource "kubernetes_namespace_v1" "azwi-example" {
 module "workload-identity" {
   source = "github.com/StevenJDH/Terraform-Modules//azure/workload-identity?ref=main"
 
-  azwi_version            = "0.13.0"
+  azwi_version            = "1.2.0"
   deploy_azwi_system      = true
   deploy_azwi_test        = true
   azwi_test_location      = "West Europe"
@@ -164,9 +164,6 @@ metadata:
   name: {{ include "app.serviceAccountName" . }}
   labels:
     {{- include "app.labels" . | nindent 4 }}
-    {{- with .Values.serviceAccount.labels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
   {{- with .Values.serviceAccount.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -197,6 +194,9 @@ spec:
       {{- end }}
       labels:
         {{- include "app.selectorLabels" . | nindent 8 }}
+        {{- with .Values.extraPodLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -210,13 +210,14 @@ spec:
 
 ```yaml
 serviceAccount:
-  # Labels to add to the azwi service account.
-  labels:
-    azure.workload.identity/use: "true" # Represents that this service account is to be used for the workload identity.
-  # Annotations to add to the azwi service account.
+  # annotations to add to the Service Account resource.
   annotations:
     azure.workload.identity/client-id: "{Client Id of the azure ad application}"
     azure.workload.identity/service-account-token-expiration: "86400" # Token is valid for 1 day.
+
+# extraPodLabels to add to the deployment pods to make use of azwi.
+extraPodLabels:
+  azure.workload.identity/use: "true"
 ```
 
 <!-- BEGIN_TF_DOCS -->

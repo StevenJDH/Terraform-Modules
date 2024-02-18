@@ -71,6 +71,11 @@ resource "kubernetes_pod_v1" "azwi-test" {
   metadata {
     name      = "azwi-test"
     namespace = local.azwi_test_config.namespace_name
+
+    labels = {
+      # Represents that this pod will be mutated for workload identity.
+      "azure.workload.identity/use" = "true"
+    }
   }
   spec {
     service_account_name = local.azwi_test_config.service_account_name
@@ -78,8 +83,8 @@ resource "kubernetes_pod_v1" "azwi-test" {
       image = "ghcr.io/azure/azure-workload-identity/msal-go"
       name  = "oidc"
       env {
-        name  = "KEYVAULT_NAME"
-        value = azurerm_key_vault.azwi-test[0].name
+        name  = "KEYVAULT_URL"
+        value = "${azurerm_key_vault.azwi-test[0].name}.vault.azure.net"
       }
       env {
         name  = "SECRET_NAME"
