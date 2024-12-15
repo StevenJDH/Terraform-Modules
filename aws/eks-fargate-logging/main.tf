@@ -66,7 +66,7 @@ EOF
     # This uses the newer Fluent Bit CloudWatch plugin written in C called "cloudwatch_logs", which
     # offers more performance than the older Fluent Bit Plugin for CloudWatch Logs written in Golang
     # called "cloudwatch." Templates have precedence over fallback log_group_name and log_stream_prefix.
-    # NOTE: Naming conventions for log groups and log streams can only use dots and commas.
+    # NOTE: Record Accessors can only be separated by dots and commas like for log groups and log streams.
     "output.conf"  = <<EOF
 [OUTPUT]
     Name cloudwatch_logs
@@ -76,8 +76,8 @@ EOF
     log_stream_prefix from-fluent-bit-
     log_retention_days ${var.cloudwatch_log_retention_in_days}
     auto_create_group true
-    log_group_template ${var.cluster_name}.$kubernetes['namespace_name'].$kubernetes['pod_name']
-    log_stream_template $kubernetes['container_name'].container
+    log_group_template ${var.cluster_name}.$kubernetes['namespace_name']
+    log_stream_template $kubernetes['pod_name'].pod.$kubernetes['container_name'].container
 EOF
     "parsers.conf" = <<EOF
 [PARSER]

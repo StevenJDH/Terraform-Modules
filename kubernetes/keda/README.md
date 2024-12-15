@@ -44,7 +44,7 @@ To remove KEDA, first remove any `ScaledObjects` and `ScaledJobs` that have been
 kubectl delete --all scaledobjects,scaledjobs -A
 ```
 
-After, KEDA can be uninstalled. The `TriggerAuthentication` resources will be cleaned up automatically. 
+After, KEDA can be uninstalled. The `TriggerAuthentication` resources will be cleaned up automatically.
 
 **Note:** Uninstall KEDA without first deleting any `ScaledObject` or `ScaledJob` resources that have been created will cause these resources to become orphaned, and Terraform might complete with a message saying:
 

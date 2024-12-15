@@ -16,7 +16,7 @@
  */
 
 provider "aws" {
-  region = var.region
+  region  = var.region
   profile = local.aws_profile
 
   # Propagating tags to all resources except the aws_autoscaling_group resource.

@@ -96,6 +96,7 @@ module "efs-lambda" {
 To create a deployment package for a function, zip the file or files needed for deployment. Next, run the following commands to create a file containing the base64 encoded SHA256 hash of the archive:
 
 **Bash** (Windows users can use git bash)
+
 ```bash
 package=app-0.1.0-aws.zip
 openssl dgst -sha256 -binary $package | openssl enc -base64 > $package.base64sha256.txt

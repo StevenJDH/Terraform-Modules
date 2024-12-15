@@ -50,8 +50,8 @@ resource "azuread_application_password" "this" {
 }
 
 resource "azuread_service_principal" "this" {
-  client_id                    = azuread_application.this.client_id
-  owners                       = var.owners
+  client_id = azuread_application.this.client_id
+  owners    = var.owners
 }
 
 resource "azurerm_role_assignment" "this" {

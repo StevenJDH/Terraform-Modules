@@ -7,7 +7,6 @@ Creates a service principal and an app registration with a built-in or custom ro
 * Manages a secret that is renewed every specified days with the renewal date in the description.
 * Optionally use created secret with scripts or other terraform resources without exposure.
 
-
 ## Usage
 
 ```hcl

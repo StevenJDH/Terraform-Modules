@@ -6,14 +6,14 @@
 module "sns-topics" {
   source = "github.com/StevenJDH/Terraform-Modules//aws/sns?ref=main"
 
-  topic_names   = ["tf-sns-example-dev"]
+  topic_names = ["tf-sns-example-dev"]
 }
 
 module "sns-fifo-topics" {
   source = "github.com/StevenJDH/Terraform-Modules//aws/sns?ref=main"
 
-  topic_names   = ["tf-sns-example2-dev"]
-  fifo_topic    = true
+  topic_names = ["tf-sns-example2-dev"]
+  fifo_topic  = true
 }
 ```
 

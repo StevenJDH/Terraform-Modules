@@ -74,7 +74,7 @@ Also, verify the following injected properties are present in the test Pod's def
 
 |         Environment variable | Description                                                                 |
 |-----------------------------:|:----------------------------------------------------------------------------|
-|  AWS_STS_REGIONAL_ENDPOINTS: | STS regional endpoint injected when `sts-regional-endpoints` is set to true. |
+|  AWS_STS_REGIONAL_ENDPOINTS: | STS regional endpoint injected when `sts-regional-endpoints` is set to true.|
 |          AWS_DEFAULT_REGION: | Specifies the AWS Region to send the request to.                            |
 |                  AWS_REGION: | The AWS SDK compatible environment variable. Overrides AWS_DEFAULT_REGION.  |
 |                AWS_ROLE_ARN: | ARN of an IAM role with a web identity provider.                            |

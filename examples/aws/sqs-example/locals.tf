@@ -16,7 +16,7 @@
  */
 
 locals {
-  stage = "dev"
+  stage       = "dev"
   aws_profile = "default"
 
   tags = {
