@@ -10,7 +10,7 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=StevenJDH_Terraform-Modules&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=StevenJDH_Terraform-Modules)
-![Maintenance](https://img.shields.io/maintenance/yes/2024)
+![Maintenance](https://img.shields.io/badge/yes-4FCA21?label=maintained&style=flat)
 ![GitHub](https://img.shields.io/github/license/StevenJDH/Terraform-Modules)
 
 A growing collection of reusable Terraform modules for AWS, Azure, and Kubernetes. Each module has an example project to demo some of its core features.
